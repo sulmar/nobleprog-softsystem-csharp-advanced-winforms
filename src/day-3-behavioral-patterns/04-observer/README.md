@@ -1,4 +1,4 @@
-# Dzień 3, Moduł 1: Observer i komunikacja zdarzeniowa
+# Dzień 3, Moduł 4: Observer i komunikacja zdarzeniowa
 
 **Observer** to wzorzec, w którym nadawca ogłasza, że coś się stało, a zainteresowani zapisują się sami. Nadawca nie zna odbiorców. W .NET służą do tego `event` oraz interfejsy `IObservable<T>` i `IObserver<T>`, które są w bibliotece standardowej. **Szyna zdarzeń** (event aggregator) dodaje jedno miejsce publikacji, dzięki czemu odbiorca nie musi znać także nadawcy.
 

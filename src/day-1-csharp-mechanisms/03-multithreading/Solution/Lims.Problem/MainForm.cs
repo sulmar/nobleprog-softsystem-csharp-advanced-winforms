@@ -8,7 +8,7 @@ namespace Lims.Problem
 {
     public partial class MainForm : Form
     {
-        private const int BatchSize = 30;
+        private const int ResultsPerDay = 30;
         private const int DelayMilliseconds = 500;
         private const int FailingResultIndex = 5;
 
@@ -23,15 +23,15 @@ namespace Lims.Problem
             clockLabel.Text = "Godzina: " + DateTime.Now.ToString("HH:mm:ss.f");
         }
 
-        private void ValidateButton_Click(object sender, EventArgs e)
+        private void CalculateButton_Click(object sender, EventArgs e)
         {
-            var results = ResultData.Batch(BatchSize);
+            var results = ResultData.ForDay(ResultsPerDay);
             var outOfRange = 0;
             progressBar.Maximum = results.Count;
 
-            // TODO: refaktoryzacja: wydzielić walidację z formularza i uruchomić ją poza wątkiem interfejsu.
+            // TODO: refaktoryzacja: wydzielić obliczanie z formularza i uruchomić ją poza wątkiem interfejsu.
             // PROBLEM: praca działa w wątku interfejsu, więc pętla komunikatów stoi i okno nie reaguje.
-            // Formularz oprócz obsługi interfejsu zawiera logikę walidacji (SRP), a pętla ma kopie niżej (DRY).
+            // Formularz oprócz obsługi interfejsu zawiera logikę obliczeń (SRP), a pętla ma kopie niżej (DRY).
             for (var i = 0; i < results.Count; i++)
             {
                 Thread.Sleep(DelayMilliseconds);
@@ -44,12 +44,12 @@ namespace Lims.Problem
                 progressBar.Value = i + 1;
             }
 
-            statusLabel.Text = "Poza zakresem: " + outOfRange + " z " + results.Count;
+            statusLabel.Text = "Badania z dnia: " + results.Count + ", poza zakresem: " + outOfRange + " (" + (outOfRange * 100m / results.Count).ToString("0.0") + "%)";
         }
 
         private void ThreadButton_Click(object sender, EventArgs e)
         {
-            var results = ResultData.Batch(BatchSize);
+            var results = ResultData.ForDay(ResultsPerDay);
             var fail = failCheckBox.Checked;
             progressBar.Maximum = results.Count;
 
@@ -69,7 +69,7 @@ namespace Lims.Problem
 
                     if (fail && i == FailingResultIndex)
                     {
-                        throw new InvalidOperationException("Błąd analizatora");
+                        throw new InvalidOperationException("Uszkodzony wynik");
                     }
 
                     if (results[i].IsOutOfRange())
@@ -80,7 +80,7 @@ namespace Lims.Problem
                     progressBar.Value = i + 1;
                 }
 
-                statusLabel.Text = "Poza zakresem: " + outOfRange + " z " + results.Count;
+                statusLabel.Text = "Badania z dnia: " + results.Count + ", poza zakresem: " + outOfRange + " (" + (outOfRange * 100m / results.Count).ToString("0.0") + "%)";
             });
 
             thread.Start();
@@ -88,7 +88,7 @@ namespace Lims.Problem
 
         private void TaskButton_Click(object sender, EventArgs e)
         {
-            var results = ResultData.Batch(BatchSize);
+            var results = ResultData.ForDay(ResultsPerDay);
 
             // TODO: refaktoryzacja: odebrać wynik w kontynuacji zamiast czekać.
             // PROBLEM: praca działa w puli wątków, ale .Result blokuje wątek interfejsu do jej końca,
@@ -108,7 +108,28 @@ namespace Lims.Problem
                 return count;
             }).Result;
 
-            statusLabel.Text = "Poza zakresem: " + outOfRange + " z " + results.Count;
+            statusLabel.Text = "Badania z dnia: " + results.Count + ", poza zakresem: " + outOfRange + " (" + (outOfRange * 100m / results.Count).ToString("0.0") + "%)";
+        }
+
+        private void MonitorButton_Click(object sender, EventArgs e)
+        {
+            var sensor = new TemperatureSensor();
+
+            // TODO: refaktoryzacja: wydzielić pętlę odczytu i przekazywać odczyty do wątku interfejsu.
+            // PROBLEM: kontrolki wolno zmieniać tylko z wątku, który je utworzył. Pod debuggerem zgłasza to
+            // InvalidOperationException, a bez niego błąd pozostaje ukryty. Formularz zawiera też pętlę
+            // odczytu (SRP), odczytu nie da się zatrzymać, a każde kliknięcie uruchamia kolejny wątek.
+            var thread = new Thread(() =>
+            {
+                while (true)
+                {
+                    var temperature = sensor.Read();
+                    temperatureLabel.Text = "Lodówka z odczynnikami: " + temperature.ToString("0.0") + " °C";
+                }
+            });
+
+            thread.IsBackground = true;
+            thread.Start();
         }
     }
 }

@@ -112,24 +112,15 @@
 
 
 
-## Moduł 1. Observer i komunikacja zdarzeniowa
+## Moduł 1. Strategy
 
-- Zdarzenia interfejsu i zdarzenia biznesowe
-- Komunikacja między formularzami i kontrolkami
-- Zarządzanie subskrypcjami zdarzeń
-
-
-
-## Moduł 2. Mediator
-
-- Koordynowanie formularzy i komponentów interfejsu
-- Ograniczanie bezpośrednich zależności między kontrolkami
-- Centralizacja obsługi interakcji użytkownika
-- Testowanie logiki koordynującej
+- Wzorzec Strategy
+- Wymienne sposoby walidacji i przetwarzania danych
+- Wybór strategii podczas działania aplikacji
 
 
 
-## Moduł 3. Command
+## Moduł 2. Command
 
 - Reprezentowanie operacji jako obiektów
 - Obsługa przycisków, menu i skrótów klawiaturowych
@@ -138,20 +129,29 @@
 
 
 
-## Moduł 4. Strategy
-
-- Wzorzec Strategy
-- Wymienne sposoby walidacji i przetwarzania danych
-- Wybór strategii podczas działania aplikacji
-
-
-
-## Moduł 5. State
+## Moduł 3. State
 
 - Wzorzec State
 - Modelowanie stanów formularza i dokumentu
 - Zmiana zachowania aplikacji zależnie od stanu
 - Zarządzanie dostępnością elementów interfejsu
+
+
+
+## Moduł 4. Observer i komunikacja zdarzeniowa
+
+- Zdarzenia interfejsu i zdarzenia biznesowe
+- Komunikacja między formularzami i kontrolkami
+- Zarządzanie subskrypcjami zdarzeń
+
+
+
+## Moduł 5. Mediator
+
+- Koordynowanie formularzy i komponentów interfejsu
+- Ograniczanie bezpośrednich zależności między kontrolkami
+- Centralizacja obsługi interakcji użytkownika
+- Testowanie logiki koordynującej
 
 
 

@@ -30,9 +30,9 @@ Stos: .NET Framework 4.8, WinForms, C# 7.3, xUnit. Przygotowanie komputera opisu
 | Dzień 2 | [05-adapter](src/day-2-architecture/05-adapter/README.md) |
 | Dzień 2 | [06-facade](src/day-2-architecture/06-facade/README.md) |
 | Dzień 2 | [07-decorator](src/day-2-architecture/07-decorator/README.md) |
-| Dzień 3 | [01-observer](src/day-3-behavioral-patterns/01-observer/README.md) |
-| Dzień 3 | [02-mediator](src/day-3-behavioral-patterns/02-mediator/README.md) |
-| Dzień 3 | [03-command](src/day-3-behavioral-patterns/03-command/README.md) |
-| Dzień 3 | [04-strategy](src/day-3-behavioral-patterns/04-strategy/README.md) |
-| Dzień 3 | [05-state](src/day-3-behavioral-patterns/05-state/README.md) |
+| Dzień 3 | [01-strategy](src/day-3-behavioral-patterns/01-strategy/README.md) |
+| Dzień 3 | [02-command](src/day-3-behavioral-patterns/02-command/README.md) |
+| Dzień 3 | [03-state](src/day-3-behavioral-patterns/03-state/README.md) |
+| Dzień 3 | [04-observer](src/day-3-behavioral-patterns/04-observer/README.md) |
+| Dzień 3 | [05-mediator](src/day-3-behavioral-patterns/05-mediator/README.md) |
 | Dzień 3 | [06-workshop](src/day-3-behavioral-patterns/06-workshop/README.md) |

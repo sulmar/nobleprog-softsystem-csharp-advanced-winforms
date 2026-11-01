@@ -36,6 +36,18 @@ Otwórz `Problem/ResultService.cs` oraz `Problem/InheritanceAttempt.cs`.
 
 Dziedziczenie ma sens, gdy klasa pochodna naprawdę jest szczególnym przypadkiem klasy bazowej, a nie gdy doczepiamy do niej działanie.
 
+## Decorator czy Proxy
+
+Budowa jest taka sama: ten sam interfejs i obiekt w środku. Różni je cel.
+
+| | Decorator | Proxy |
+|---|---|---|
+| Cel | Dokłada działanie | Kontroluje dostęp do obiektu |
+| Przykład | Log | Cache przed wolną bazą, uprawnienia przed danymi |
+| Łańcuch | Zwykle kilka warstw | Zwykle jedna warstwa |
+
+Cache i uprawnienia można nazwać obiema nazwami. Liczy się to, co klasa ma osiągnąć.
+
 ## Reguły
 
 - **Jeden dekorator, jedno działanie.** Jeśli w nazwie pojawia się „i”, podziel klasę.

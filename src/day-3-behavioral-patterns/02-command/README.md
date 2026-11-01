@@ -1,4 +1,4 @@
-# Dzień 3, Moduł 3: Command
+# Dzień 3, Moduł 2: Command
 
 **Polecenie** to operacja zapisana jako obiekt. Obiekt wie, jak ją wykonać (`Execute`), czy można ją teraz wykonać (`CanExecute`), i informuje, gdy to się zmienia (`CanExecuteChanged`). Przycisk, pozycja menu i skrót klawiaturowy korzystają z tego samego obiektu, więc nie mogą się już różnić. Operacja przestaje też zależeć od okna, a więc można ją przetestować.
 

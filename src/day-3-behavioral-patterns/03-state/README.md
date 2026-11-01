@@ -1,4 +1,4 @@
-# Dzień 3, Moduł 5: State
+# Dzień 3, Moduł 3: State
 
 **State** przenosi zachowanie zależne od stanu do osobnych klas. Obiekt, czyli **kontekst**, przekazuje każdą operację do bieżącego stanu, a **stan** sam decyduje, czy operacja jest dozwolona i dokąd prowadzi. Znikają warunki po statusie rozsiane po kodzie, a dostępność przycisków wynika ze stanu, zamiast być jego kolejną kopią.
 

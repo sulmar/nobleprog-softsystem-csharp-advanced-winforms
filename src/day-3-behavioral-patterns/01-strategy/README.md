@@ -1,4 +1,4 @@
-# Dzień 3, Moduł 4: Strategy
+# Dzień 3, Moduł 1: Strategy
 
 **Strategy** zamyka wymienny sposób działania w osobnej klasie za wspólnym **interfejsem strategii**. Klasa, która z niego korzysta, czyli **kontekst**, zna tylko interfejs i nie sprawdza, z którym wariantem pracuje. O wyborze decyduje ktoś z zewnątrz, także **podczas działania aplikacji**: użytkownik na liście albo konfiguracja.
 
@@ -35,7 +35,7 @@ Otwórz `Problem/ResultProcessor.cs` i `Problem/PrintBilling.cs`.
 
 Oba wzorce mają taką samą budowę: interfejs, kilka implementacji i klasę, która do nich deleguje. Różni je to, kto i dlaczego zmienia wariant.
 
-| | Strategy | State (kolejny moduł) |
+| | Strategy | State (moduł 3) |
 |---|---|---|
 | Kto wybiera | Ktoś z zewnątrz: użytkownik, konfiguracja | Sam obiekt, w reakcji na to, co się z nim dzieje |
 | Czy warianty znają się nawzajem | Nie | Często tak, bo wskazują następny stan |

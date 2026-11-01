@@ -6,7 +6,7 @@ Moduł celowo nie używa `async` i `await` ani współdzielonego stanu. To temat
 
 ## Historia
 
-Walidacja serii wyników z analizatora trwa kilkanaście sekund. Na ten czas okno dostaje status „Nie odpowiada”, a użytkownicy zamykają je przez menedżer zadań. Kolejne próby naprawy przenoszą pracę do innego wątku, ale wywołują nowe problemy.
+Podsumowanie badań z całego dnia liczy się kilkanaście sekund. Na ten czas okno dostaje status „Nie odpowiada”, a użytkownicy zamykają je przez menedżer zadań. Kolejne próby naprawy przenoszą pracę do innego wątku, ale wywołują nowe problemy.
 
 ## Problem
 
@@ -14,11 +14,12 @@ Otwórz `Problem/`. Zegar w oknie pokazuje, czy wątek interfejsu reaguje: gdy s
 
 | Przycisk | Problem | Objaw |
 |---|---|---|
-| Waliduj | Praca w wątku interfejsu | **Zegar i okno stają na czas pracy** |
-| Waliduj w tle | Wątek pierwszoplanowy | Po zamknięciu okna proces działa do końca pracy |
-| Waliduj w tle | Zmiana kontrolek z innego wątku | **Pod debuggerem `InvalidOperationException`** |
-| Waliduj w tle, z polem „Błąd analizatora” | Nieobsłużony wyjątek w wątku | Cała aplikacja kończy działanie |
-| Waliduj zadaniem | `Task.Run(...).Result` | Praca jest w puli wątków, a okno i tak stoi |
+| Policz dzień | Praca w wątku interfejsu | **Zegar i okno stają na czas pracy** |
+| Policz w tle | Wątek pierwszoplanowy | Po zamknięciu okna proces działa do końca pracy |
+| Monitoruj temperaturę | Zmiana kontrolki z wątku czujnika | **Pod debuggerem `InvalidOperationException`** |
+| Monitoruj temperaturę | Pętla w formularzu, bez zatrzymania | Odczytu nie da się przerwać, a każde kliknięcie uruchamia kolejny wątek |
+| Policz w tle, z polem „Uszkodzony wynik” | Nieobsłużony wyjątek w wątku | Cała aplikacja kończy działanie |
+| Policz zadaniem | `Task.Run(...).Result` | Praca jest w puli wątków, a okno i tak stoi |
 
 ## `Thread` a `Task`
 

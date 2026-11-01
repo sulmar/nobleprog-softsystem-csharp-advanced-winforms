@@ -1,4 +1,4 @@
-# Dzień 3, Moduł 2: Mediator
+# Dzień 3, Moduł 5: Mediator
 
 **Mediator** to jeden obiekt, który wie, jak kilka komponentów ma ze sobą współdziałać. Komponenty nie mają do siebie referencji: zgłaszają, co się u nich stało, a mediator decyduje, kto i w jakiej kolejności ma zareagować. Dzięki temu reguły współdziałania są w jednym miejscu i można je sprawdzić testem, bez okna.
 
