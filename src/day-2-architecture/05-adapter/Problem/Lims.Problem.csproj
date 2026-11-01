@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>Lims.Problem</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Lims.Problem.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vendors\Vendor.Hemolab\Vendor.Hemolab.csproj" />
+    <ProjectReference Include="..\Vendors\Vendor.Chemtron\Vendor.Chemtron.csproj" />
+    <ProjectReference Include="..\Vendors\Vendor.Bioscan\Vendor.Bioscan.csproj" />
+  </ItemGroup>
+
+</Project>

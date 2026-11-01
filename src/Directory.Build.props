@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- C# 7.3 to domyślna wersja języka dla .NET Framework 4.8. -->
+    <LangVersion>7.3</LangVersion>
+    <!-- Pozwala kompilować projekty WinForms poza Windows. Uruchomienie nadal wymaga Windows. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+</Project>
