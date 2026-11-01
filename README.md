@@ -11,7 +11,7 @@ Układ modułu:
 
 Moduł `06-workshop` ma inny układ: cała praca odbywa się w `Starter/`.
 
-Stos: .NET Framework 4.8, WinForms, C# 7.3, xUnit. Przygotowanie komputera opisuje [docs/environment-setup.md](docs/environment-setup.md).
+Stos: .NET Framework 4.8, WinForms, C# 7.3, xUnit. Przygotowanie komputera opisuje [docs/environment-setup.md](docs/environment-setup.md), skróty zasad [docs/solid-glossary.md](docs/solid-glossary.md), a role we wzorcach [docs/design-patterns.md](docs/design-patterns.md).
 
 ## Moduły
 

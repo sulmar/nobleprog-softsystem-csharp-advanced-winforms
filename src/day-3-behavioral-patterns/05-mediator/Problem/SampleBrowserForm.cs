@@ -9,15 +9,11 @@ namespace Lims.Problem
             InitializeComponent();
 
             // TODO: refaktoryzacja: formularz ma tylko złożyć panele z jednym obiektem, który je koordynuje.
-            // PROBLEM: siedem referencji między czterema panelami. Pominięcie jednej linii kończy się
+            // PROBLEM: trzy panele trzymają referencje do siebie nawzajem. Pominięcie jednej linii kończy się
             // wyjątkiem NullReferenceException dopiero po konkretnym kliknięciu (DIP).
             filtersPanel.List = samplesPanel;
             samplesPanel.Details = detailsPanel;
-            samplesPanel.Actions = actionsPanel;
             detailsPanel.List = samplesPanel;
-            detailsPanel.Actions = actionsPanel;
-            actionsPanel.List = samplesPanel;
-            actionsPanel.Details = detailsPanel;
 
             filtersPanel.ApplyCurrentFilter();
         }

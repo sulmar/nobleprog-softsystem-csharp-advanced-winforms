@@ -6,10 +6,9 @@ namespace Lims.Problem
     public partial class SampleListPanel : UserControl
     {
         // TODO: refaktoryzacja: lista ma tylko zgłaszać wybór próbki.
-        // PROBLEM: lista zna szczegóły i pasek przycisków, a każdy z nich zna listę. Nie da się jej
-        // użyć ani sprawdzić bez pozostałych paneli (DIP).
+        // PROBLEM: lista zna szczegóły, a szczegóły znają listę. Nie da się jej użyć ani sprawdzić
+        // bez pozostałych paneli (DIP).
         public SampleDetailsPanel Details { get; set; }
-        public ActionBarPanel Actions { get; set; }
 
         public Sample SelectedSample { get; private set; }
 
@@ -45,9 +44,8 @@ namespace Lims.Problem
             }
 
             // TODO: refaktoryzacja: „nic nie jest wybrane” ma być jedną regułą dla wszystkich paneli.
-            // PROBLEM: szczegóły są czyszczone, ale nikt nie wyłącza przycisków. Pasek pamięta poprzednią
-            // próbkę, więc „Zatwierdź” działa na próbce, której użytkownik już nie widzi (SRP).
-            Details.Clear();
+            // PROBLEM: lista wie tylko o sobie. Szczegóły nadal pokazują poprzednią próbkę, więc „Zatwierdź”
+            // działa na próbce, której po nowym wyszukiwaniu nie ma już na liście (SRP).
         }
 
         private bool Matches(Sample sample)
@@ -80,7 +78,7 @@ namespace Lims.Problem
             // TODO: refaktoryzacja: decyzja o niezapisanym komentarzu i pytanie do użytkownika w jednym miejscu.
             // PROBLEM: reguła jest tylko tutaj, a inne drogi zmiany próbki ją omijają (DRY).
             if (Details.HasUnsavedComment
-                && MessageBox.Show("Komentarz nie jest zapisany. Porzucić zmiany?", "Przegląd próbek", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                && MessageBox.Show("Komentarz nie jest zapisany. Porzucić zmiany?", "Wyszukiwanie próbek", MessageBoxButtons.YesNo) != DialogResult.Yes)
             {
                 _restoringSelection = true;
                 samplesListBox.SelectedItem = SelectedSample;
@@ -92,7 +90,6 @@ namespace Lims.Problem
             // PROBLEM: kolejność wywołań jest częścią reguły, ale nigdzie nie jest opisana (SRP).
             SelectedSample = sample;
             Details.ShowSample(sample);
-            Actions.SetSample(sample);
         }
     }
 }

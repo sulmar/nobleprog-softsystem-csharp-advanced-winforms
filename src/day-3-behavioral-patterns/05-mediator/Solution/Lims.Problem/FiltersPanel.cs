@@ -5,8 +5,8 @@ namespace Lims.Problem
 {
     public partial class FiltersPanel : UserControl
     {
-        // TODO: refaktoryzacja: panel ma tylko zgłaszać, że filtr się zmienił.
-        // PROBLEM: filtry znają konkretną listę i decydują, co ma się z nią stać (DIP).
+        // TODO: refaktoryzacja: panel ma tylko zgłaszać, że zmieniły się kryteria wyszukiwania.
+        // PROBLEM: wyszukiwarka zna konkretną listę i decydują, co ma się z nią stać (DIP).
         public SampleListPanel List { get; set; }
 
         public FiltersPanel()
@@ -20,8 +20,8 @@ namespace Lims.Problem
         public void ApplyCurrentFilter()
         {
             // TODO: refaktoryzacja: niezapisany komentarz ma być sprawdzany w jednym miejscu.
-            // PROBLEM: lista pyta o niezapisany komentarz przed zmianą próbki, a filtry o tym nie wiedzą.
-            // Zmiana filtra po cichu gubi komentarz, który użytkownik właśnie wpisał (DRY).
+            // PROBLEM: lista pyta o niezapisany komentarz przed zmianą próbki, a wyszukiwarka o tym nie wie.
+            // Po nowym wyszukiwaniu komentarz zostaje przy próbce, której nie ma już na liście (DRY).
             List.ApplyFilter(SelectedStatus(), searchTextBox.Text, urgentCheckBox.Checked);
         }
 

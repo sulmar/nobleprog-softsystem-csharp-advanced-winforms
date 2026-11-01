@@ -4,19 +4,19 @@
 
 ## Historia
 
-Ekran przeglądu próbek składa się z czterech kontrolek użytkownika: filtrów, listy, szczegółów i paska przycisków. Każda z nich zna pozostałe i każda włącza lub czyści coś u innych. Po kolejnym zgłoszeniu programista dopisał odświeżenie listy po zapisie komentarza i od tego dnia szczegóły znikają zaraz po zapisaniu. Kierownik laboratorium zgłasza też poważniejszą sprawę: zatwierdzona próbka okazała się próbką, której nikt w tym momencie nie widział na ekranie.
+Laborantka szuka próbki po kodzie lub pacjencie na ekranie „Wyszukiwanie próbek”: to jedna formatka z trzema panelami, czyli kryteriami, wynikami oraz szczegółami z przyciskami. Panele znają się nawzajem i każdy sam wywołuje pozostałe. Po nowym wyszukiwaniu kierownik znajduje zatwierdzoną próbkę, której nikt nie oglądał.
 
 ## Problem
 
-Otwórz `Problem/`. Formularz ustawia siedem referencji między panelami, a każda zmiana uruchamia łańcuch wywołań.
+Otwórz `Problem/`. Formularz łączy panele referencjami, a każda zmiana uruchamia łańcuch wywołań.
 
 | Działanie użytkownika | Co się dzieje w kodzie | Objaw |
 |---|---|---|
-| Wybór próbki, zmiana filtra, „Zatwierdź” | Lista czyści szczegóły, ale pasek pamięta starą próbkę | **Zatwierdzona zostaje próbka, której nie ma już na ekranie** |
-| Zapisanie komentarza | `SaveComment` wywołuje `List.Reload`, a to `Details.Clear` | **Szczegóły i wybór znikają zaraz po zapisie** |
-| Zapisanie pustego komentarza, „Odrzuć” | `OnCommentSaved` ma kopię reguły bez warunku na treść | **Próbka odrzucona bez podania powodu** |
+| Wybór próbki, nowe wyszukiwanie, „Zatwierdź” | Lista odświeża tylko siebie, a szczegóły pamiętają starą próbkę | **Zatwierdzona zostaje próbka, której nie ma w wynikach** |
+| Zapisanie komentarza | `SaveButton_Click` wywołuje `List.Reload` | **Wybór na liście znika zaraz po zapisie** |
+| Zapisanie pustego komentarza, „Odrzuć” | `SaveButton_Click` ma kopię reguły bez warunku na treść | **Próbka odrzucona bez podania powodu** |
 | „Zatwierdź”, a potem „Odrzuć” | Nikt nie wyłącza przycisków po decyzji | **Status zatwierdzonej próbki zostaje nadpisany** |
-| Edycja komentarza, zmiana filtra | Tylko lista pyta o niezapisany komentarz | Komentarz ginie bez pytania, a „Zapisz” kończy się `NullReferenceException` |
+| Edycja komentarza, nowe wyszukiwanie | Tylko lista pyta o niezapisany komentarz | Komentarz zostaje przy próbce, której nie ma w wynikach |
 
 ## Mediator, Observer i Presenter
 
