@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Lims.Domain;
+using Lims.Problem.Extensions;
 using Lims.Problem.Helpers;
 
 namespace Lims.Problem
@@ -45,7 +46,7 @@ namespace Lims.Problem
                     Unit = result.Unit,
                     Range = result.ReferenceLow + " - " + result.ReferenceHigh,
                     
-                    IsOutOfRange = TestResultHelper.IsOutOfRange(result)
+                    IsOutOfRange = result.IsOutOfRange()
                 });
             }
 
