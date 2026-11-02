@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Lims.Domain;
+using Lims.Problem.Helpers;
 
 namespace Lims.Problem
 {
@@ -43,10 +44,8 @@ namespace Lims.Problem
                     Value = result.Value,
                     Unit = result.Unit,
                     Range = result.ReferenceLow + " - " + result.ReferenceHigh,
-
-                    // TODO: refaktoryzacja: użyć wspólnej reguły zakresu.
-                    // PROBLEM: ta sama reguła co w SampleListForm, ale inne operatory (DRY), i to w formularzu (SRP).
-                    IsOutOfRange = result.Value < result.ReferenceLow || result.Value > result.ReferenceHigh
+                    
+                    IsOutOfRange = TestResultHelper.IsOutOfRange(result)
                 });
             }
 

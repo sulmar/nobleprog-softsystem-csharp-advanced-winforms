@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Lims.Domain;
+using Lims.Problem.Helpers;
 
 namespace Lims.Problem
 {
@@ -49,7 +50,7 @@ namespace Lims.Problem
                     // PROBLEM: "<=" i ">=" liczą wartość równą granicy jako przekroczenie. ResultsForm używa "<" i ">" (DRY),
                     // więc glukoza 99 mg/dl (zakres 70-99) jest tu liczona jako wynik poza zakresem, a tam nie.
                     if (result.SampleCode == sample.Code
-                        && (result.Value <= result.ReferenceLow || result.Value >= result.ReferenceHigh))
+                        && TestResultHelper.IsOutOfRange(result))
                     {
                         outOfRangeCount++;
                     }
