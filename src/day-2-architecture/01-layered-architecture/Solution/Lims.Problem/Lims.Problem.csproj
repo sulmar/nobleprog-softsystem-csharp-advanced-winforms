@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Lims.Application\Lims.Application.csproj" />
     <ProjectReference Include="..\..\Lims.Domain\Lims.Domain.csproj" />
     <ProjectReference Include="..\..\Lims.Infrastucture\Lims.Infrastucture.csproj" />

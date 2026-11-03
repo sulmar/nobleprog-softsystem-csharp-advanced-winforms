@@ -1,6 +1,7 @@
 using Lims.Application;
 using Lims.Domain;
 using Lims.Infrastucture;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Forms;
 
@@ -14,17 +15,43 @@ namespace Lims.Problem
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
+            // Install-Package Microsoft.Extensions.DependencyInjection
 
-            var factory = new LabelPrinterFactory2();
-            factory.Register("Glukoza", new LabelTechLabelPrinter("COM3"));
-            factory.Register("Morfologia", new FakeLabelPrinter());
+            var services = new ServiceCollection();
 
-            var service = new SampleRegistrationService(
-                new InMemorySampleRepository(), 
-                factory,
-                new PriorityPriceDecorator(new PriceCalculator()));            
+            services.AddTransient<PriceCalculator>();
+            services.AddTransient<IPriceCalculator>(provider =>
+            {
+                var calculator = provider.GetRequiredService<PriceCalculator>();
 
-            System.Windows.Forms.Application.Run(new SampleRegistrationForm(service));
+                return new PriorityPriceDecorator(calculator);
+            });
+
+            services.AddTransient<ISampleRepository, InMemorySampleRepository>();
+
+            services.AddTransient<ILabelPrinterFactory>(provider =>
+            {
+                var factory = new LabelPrinterFactory2();
+                factory.Register("Glukoza", new LabelTechLabelPrinter("COM3"));
+                factory.Register("Morfologia", new FakeLabelPrinter());
+
+                return factory;
+            });
+
+            services.AddTransient<SampleRegistrationService>();
+
+            services.AddSingleton<SampleRegistrationForm>();
+
+            using (var provider = services.BuildServiceProvider())
+            using (var scope = provider.CreateScope()) 
+            {
+
+                SampleRegistrationForm form = scope.ServiceProvider.GetService<SampleRegistrationForm>();
+
+                System.Windows.Forms.Application.Run(form);
+            }
+
+            
         }
     }
 }
