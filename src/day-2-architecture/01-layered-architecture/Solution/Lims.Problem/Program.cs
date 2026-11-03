@@ -14,10 +14,15 @@ namespace Lims.Problem
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
+
+            var factory = new LabelPrinterFactory2();
+            factory.Register("Glukoza", new LabelTechLabelPrinter("COM3"));
+            factory.Register("Morfologia", new FakeLabelPrinter());
+
             var service = new SampleRegistrationService(
-                new InMemorySampleRepository(),
-                new LabelTechLabelPrinter("COM3"),
-                new PriorityPriceDecorator(new PriceCalculator()));
+                new InMemorySampleRepository(), 
+                factory,
+                new PriorityPriceDecorator(new PriceCalculator()));            
 
             System.Windows.Forms.Application.Run(new SampleRegistrationForm(service));
         }

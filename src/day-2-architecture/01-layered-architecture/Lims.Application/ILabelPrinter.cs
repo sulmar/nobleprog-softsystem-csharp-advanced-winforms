@@ -9,4 +9,10 @@ namespace Lims.Application
     {
         void Print(Sample sample);
     }
+
+    // Abstract Factory
+    public interface ILabelPrinterFactory
+    {
+        ILabelPrinter Create(string analyte);
+    }
 }

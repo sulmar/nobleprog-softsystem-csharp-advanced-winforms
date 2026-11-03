@@ -9,13 +9,13 @@ namespace Lims.Application
     public class SampleRegistrationService
     {
         private readonly ISampleRepository sampleRepository;
-        private readonly ILabelPrinter printer;
+        private readonly ILabelPrinterFactory factory;
         private readonly IPriceCalculator calculator;
 
-        public SampleRegistrationService(ISampleRepository sampleRepository, ILabelPrinter printer, IPriceCalculator calculator)
+        public SampleRegistrationService(ISampleRepository sampleRepository, ILabelPrinterFactory factory, IPriceCalculator calculator)
         {
             this.sampleRepository = sampleRepository;
-            this.printer = printer;
+            this.factory = factory;
             this.calculator = calculator;
         }
 
@@ -23,16 +23,12 @@ namespace Lims.Application
         {            
             var price = calculator.Calculate(analyte, priority);
 
-            // TODO: refaktoryzacja: ukryć bazę za interfejsem.
-            // PROBLEM: formularz woła statyczną klasę (DIP), więc zmiana bazy dotyka okna.            
-
             Sample sample = new Sample { Pesel = pesel, Analyte = analyte, Priority = priority, Price = price };
 
             sampleRepository.Add(sample);
+            
 
-            // TODO: refaktoryzacja: ukryć drukarkę za interfejsem.
-            // PROBLEM: formularz zna SDK jednego dostawcy i port urządzenia. Zmiana drukarki to zmiana okna,
-            // a każda rejestracja w teście drukowałaby prawdziwą etykietę.
+            ILabelPrinter printer = factory.Create(sample.Analyte);
 
             printer.Print(sample);
 
