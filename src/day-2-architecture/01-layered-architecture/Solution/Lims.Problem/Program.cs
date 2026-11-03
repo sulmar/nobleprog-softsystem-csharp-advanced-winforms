@@ -1,4 +1,5 @@
 using Lims.Application;
+using Lims.Domain;
 using Lims.Infrastucture;
 using System;
 using System.Windows.Forms;
@@ -14,8 +15,9 @@ namespace Lims.Problem
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
             var service = new SampleRegistrationService(
-                new InMemorySampleRepository(), 
-                new LabelTechLabelPrinter());
+                new InMemorySampleRepository(),
+                new LabelTechLabelPrinter("COM3"),
+                new PriorityPriceDecorator(new PriceCalculator()));
 
             System.Windows.Forms.Application.Run(new SampleRegistrationForm(service));
         }

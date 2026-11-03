@@ -1,19 +1,29 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Lims.Domain
 {
-    public class PriceCalculator
+    public class PriceCalculator : IPriceCalculator
     {
         public decimal Calculate(string analyte, string priority)
         {
-            decimal price = 12m;
-            if (analyte == "Hemoglobina") price = 18m;
-            if (analyte == "Morfologia") price = 25m;
-            if (priority == "Pilne") price = price * 1.5m;
-            if (priority == "Cito") price = price * 2m;
+            switch(analyte)
+            {
+                case "Hemoglobina": 
+                    return 18m;
+                case "Morfologia":
+                    return 25m;
 
+                default: return 12m;
+            }
 
-            return price;
+            // Match Pattern
+            //return analyte switch
+            //{
+            //    "Hemoglobina" => 18m,
+            //    "Morfologia" => 25m,
+            //    _ => 12m
+            //};
         }
     }
 }

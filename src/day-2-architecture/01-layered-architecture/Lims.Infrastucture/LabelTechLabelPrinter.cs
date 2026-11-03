@@ -7,15 +7,22 @@ using System.Text;
 
 namespace Lims.Infrastucture
 {
-    // Wzorzec Projektowy Adapter
+    // Wzorzec Projektowy Adapter (wariant obiektowy)
     public class LabelTechLabelPrinter : ILabelPrinter
     {
+        private readonly string port;
+
+        public LabelTechLabelPrinter(string port)
+        {
+            this.port = port;
+        }
+
         public void Print(Sample sample)
         {
             // Adaptee
             var printer = new LabelTechPrinter();
 
-            printer.Connect("COM3");
+            printer.Connect(port);
             printer.PrintLine(sample.Pesel + " | " + sample.Analyte + " | " + sample.Priority);
             printer.Disconnect();
 

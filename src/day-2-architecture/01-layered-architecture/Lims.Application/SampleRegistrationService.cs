@@ -10,18 +10,17 @@ namespace Lims.Application
     {
         private readonly ISampleRepository sampleRepository;
         private readonly ILabelPrinter printer;
+        private readonly IPriceCalculator calculator;
 
-        public SampleRegistrationService(ISampleRepository sampleRepository, ILabelPrinter printer)
+        public SampleRegistrationService(ISampleRepository sampleRepository, ILabelPrinter printer, IPriceCalculator calculator)
         {
             this.sampleRepository = sampleRepository;
             this.printer = printer;
+            this.calculator = calculator;
         }
 
         public Sample Register(string pesel, string analyte, string priority)
-        {
-            // Zaleznosci            
-            PriceCalculator calculator = new PriceCalculator();
-
+        {            
             var price = calculator.Calculate(analyte, priority);
 
             // TODO: refaktoryzacja: ukryć bazę za interfejsem.
