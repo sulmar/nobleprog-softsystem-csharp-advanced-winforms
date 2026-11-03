@@ -1,3 +1,5 @@
+using Lims.Application;
+using Lims.Infrastucture;
 using System;
 using System.Windows.Forms;
 
@@ -8,9 +10,14 @@ namespace Lims.Problem
         [STAThread]
         private static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SampleRegistrationForm());
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+
+            var service = new SampleRegistrationService(
+                new InMemorySampleRepository(), 
+                new LabelTechLabelPrinter());
+
+            System.Windows.Forms.Application.Run(new SampleRegistrationForm(service));
         }
     }
 }

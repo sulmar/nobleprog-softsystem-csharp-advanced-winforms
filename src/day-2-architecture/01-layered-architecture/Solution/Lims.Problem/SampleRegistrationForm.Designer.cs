@@ -24,40 +24,42 @@ namespace Lims.Problem
             this.samplesGrid = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.samplesGrid)).BeginInit();
             this.SuspendLayout();
-            //
+            // 
             // peselLabel
-            //
+            // 
             this.peselLabel.AutoSize = true;
             this.peselLabel.Location = new System.Drawing.Point(12, 15);
             this.peselLabel.Name = "peselLabel";
+            this.peselLabel.Size = new System.Drawing.Size(88, 13);
             this.peselLabel.TabIndex = 0;
             this.peselLabel.Text = "PESEL pacjenta:";
-            //
+            // 
             // peselTextBox
-            //
+            // 
             this.peselTextBox.Location = new System.Drawing.Point(110, 12);
             this.peselTextBox.Name = "peselTextBox";
             this.peselTextBox.Size = new System.Drawing.Size(150, 20);
             this.peselTextBox.TabIndex = 1;
-            //
+            this.peselTextBox.Text = "01234567891";
+            // 
             // analyteComboBox
-            //
+            // 
             this.analyteComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.analyteComboBox.Location = new System.Drawing.Point(12, 42);
             this.analyteComboBox.Name = "analyteComboBox";
             this.analyteComboBox.Size = new System.Drawing.Size(120, 21);
             this.analyteComboBox.TabIndex = 2;
-            //
+            // 
             // priorityComboBox
-            //
+            // 
             this.priorityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.priorityComboBox.Location = new System.Drawing.Point(140, 42);
             this.priorityComboBox.Name = "priorityComboBox";
             this.priorityComboBox.Size = new System.Drawing.Size(120, 21);
             this.priorityComboBox.TabIndex = 3;
-            //
+            // 
             // registerButton
-            //
+            // 
             this.registerButton.Location = new System.Drawing.Point(12, 72);
             this.registerButton.Name = "registerButton";
             this.registerButton.Size = new System.Drawing.Size(130, 23);
@@ -65,16 +67,17 @@ namespace Lims.Problem
             this.registerButton.Text = "Zarejestruj próbkę";
             this.registerButton.UseVisualStyleBackColor = true;
             this.registerButton.Click += new System.EventHandler(this.RegisterButton_Click);
-            //
+            // 
             // statusLabel
-            //
+            // 
             this.statusLabel.AutoSize = true;
             this.statusLabel.Location = new System.Drawing.Point(150, 77);
             this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(0, 13);
             this.statusLabel.TabIndex = 5;
-            //
+            // 
             // samplesGrid
-            //
+            // 
             this.samplesGrid.AllowUserToAddRows = false;
             this.samplesGrid.AllowUserToDeleteRows = false;
             this.samplesGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -84,9 +87,9 @@ namespace Lims.Problem
             this.samplesGrid.RowHeadersVisible = false;
             this.samplesGrid.Size = new System.Drawing.Size(560, 200);
             this.samplesGrid.TabIndex = 6;
-            //
+            // 
             // SampleRegistrationForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 316);
@@ -102,6 +105,7 @@ namespace Lims.Problem
             ((System.ComponentModel.ISupportInitialize)(this.samplesGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.Label peselLabel;
