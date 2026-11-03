@@ -3,6 +3,6 @@
     // Abstract Decorator
     public interface IPriceCalculator
     {
-        decimal Calculate(string analyte, string priority);
+        decimal Calculate(string analyte, Priority priority);
     }
 }

@@ -3,9 +3,10 @@ using System.Diagnostics;
 
 namespace Lims.Domain
 {
+    // Concrete Decorator A
     public class PriceCalculator : IPriceCalculator
     {
-        public decimal Calculate(string analyte, string priority)
+        public decimal Calculate(string analyte, Priority priority)
         {
             switch(analyte)
             {

@@ -1,6 +1,7 @@
 ﻿namespace Lims.Domain
 {
     // Wzorzec Projektowy Dekorator
+    // Concrete Decorator B
     public class PriorityPriceDecorator : IPriceCalculator
     {
         private readonly IPriceCalculator calculator;
@@ -10,12 +11,12 @@
             this.calculator = calculator;
         }
 
-        public decimal Calculate(string analyte, string priority)
+        public decimal Calculate(string analyte, Priority priority)
         {
             decimal price = calculator.Calculate(analyte, priority);
 
-            if (priority == "Pilne") price = price * 1.5m;
-            if (priority == "Cito") price = price * 2m;
+            if (priority  == Priority.Urgent) price = price * 1.5m;
+            if (priority == Priority.Immediate) price = price * 2m;
 
             return price;
 

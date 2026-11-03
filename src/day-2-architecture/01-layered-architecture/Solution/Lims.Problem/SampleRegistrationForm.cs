@@ -35,7 +35,7 @@ namespace Lims.Problem
         {
             var pesel = peselTextBox.Text;
             var analyte = (string)analyteComboBox.SelectedItem;
-            var priority = (string)priorityComboBox.SelectedItem;            
+            var priority = (Priority)priorityComboBox.SelectedIndex;            
 
             var sample = service.Register(pesel, analyte, priority);
             

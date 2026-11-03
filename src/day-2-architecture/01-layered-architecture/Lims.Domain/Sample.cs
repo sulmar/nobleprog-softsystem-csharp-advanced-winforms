@@ -8,7 +8,14 @@ namespace Lims.Domain
     {
         public string Pesel { get; set; }
         public string Analyte { get; set; }
-        public string Priority { get; set; }
+        public Priority Priority { get; set; }
         public decimal Price { get; set; }
+    }
+
+    public enum Priority
+    {
+        Normal,
+        Urgent,
+        Immediate
     }
 }
