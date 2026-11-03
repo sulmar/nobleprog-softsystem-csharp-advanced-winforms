@@ -7,7 +7,9 @@ namespace Lims.Problem
 {
     internal static class ResultImporter
     {
-        public static void Import(List<TestResult> incoming, List<TestResult> target, MainForm mainForm)
+        // public delegate void LogWriter(string text);        
+
+        public static void Import(List<TestResult> incoming, List<TestResult> target, Action<string> log, MainForm mainForm)
         {
             for (var i = 0; i < incoming.Count; i++)
             {
@@ -17,7 +19,9 @@ namespace Lims.Problem
                 // PROBLEM: import jest uzależniony od jednego sposobu logowania (DIP). Log na ekranie
                 // lub w bazie wymaga zmiany tej metody (OCP), a każdy test zapisze plik na dysku.
                 // Importer oprócz logiki importu zawiera obsługę logowania (SRP).
-                File.AppendAllText("import.log", "Zaimportowano: " + incoming[i].Analyte + Environment.NewLine);
+                // 
+
+                log?.Invoke($"Zaimportowano: {incoming[i].Analyte}");
 
                 // TODO: refaktoryzacja: wydzielić raportowanie postępu poza import.
                 // PROBLEM: import zna konkretny formularz (DIP), a bez niego trzeba przekazać null.

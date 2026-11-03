@@ -15,11 +15,11 @@ namespace Lims.Problem
             // TODO: naprawić błąd: usuwać subskrypcję przy zamknięciu okna.
             // PROBLEM: subskrypcja nigdy nie jest usuwana. Drukarka żyje dłużej niż okno i przez delegat trzyma
             // do niego referencję, więc zamknięte okno zostaje w pamięci i nadal reaguje na każdy wydruk.
-            printer.PrintCompleted += (document, copies) =>
+            printer.PrintCompleted += (sender, args) =>
             {
-                mainForm.AddLogEntry("Podgląd #" + number + " obsłużył wydruk: " + document);
-                lastPrintLabel.Text = "Ostatni wydruk: " + document + ", kopie: " + copies;
-            };
+                mainForm.AddLogEntry("Podgląd #" + sender + " obsłużył wydruk: " + args.Document);
+                lastPrintLabel.Text = $"Ostatni wydruk: {args.Document}, kopie: {args.Copies}";
+            };            
         }
     }
 }

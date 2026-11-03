@@ -1,5 +1,8 @@
+using System;
+
 namespace Lims.Domain
 {
+    [Serializable]
     /// <summary>Wynik pojedynczego oznaczenia wraz z zakresem referencyjnym.</summary>
     public class TestResult
     {

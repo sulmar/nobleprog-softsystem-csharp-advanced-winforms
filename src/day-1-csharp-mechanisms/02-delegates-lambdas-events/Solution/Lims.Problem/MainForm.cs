@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Lims.Domain;
+using static Lims.Problem.ResultImporter;
 
 namespace Lims.Problem
 {
@@ -105,10 +107,45 @@ namespace Lims.Problem
             var incoming = Enumerable.Range(_sequence, 3).Select(ResultData.NewResult).ToList();
             _sequence += incoming.Count;
 
-            ResultImporter.Import(incoming, _results, this);
+            // LogWriter log = WriteToFile;
+            Action<string> log = WriteToFile;
+
+            log += WriteToConsole;
+            log += Console.WriteLine;            
+
+            // Metoda anonimowa (funkcja inline)
+            log += delegate (string text)
+            {
+                Console.WriteLine(text);
+            };
+       
+            // Wyrazenie lambda f(x) => x + 2;
+            log += text => Console.WriteLine(text);
+
+            Action<string> f = text => Console.WriteLine(text);
+
+            // NET CORE 8
+            // var f = text => Console.WriteLine(text);
+
+            log += f;
+
+            ResultImporter.Import(incoming, _results, log, this);
             RefreshResults();
 
             MessageBox.Show(this, "Zaimportowano wyniki: " + incoming.Count + ". Szczegóły w pliku import.log.", "Import");
+        }
+
+        private static void WriteToFile(string text)
+        {
+            File.AppendAllText("import.log", text + Environment.NewLine);
+        }
+
+        private static void WriteToConsole(string message)
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         // TODO: refaktoryzacja: przekazać postęp jako delegat i usunąć tę metodę.
@@ -134,7 +171,7 @@ namespace Lims.Problem
 
         private void PrintButton_Click(object sender, EventArgs e)
         {
-            var cost = _printer.Print("Raport wyników", (int)copiesUpDown.Value);
+            var cost = _printer.Print("Raport wyników", (int)copiesUpDown.Value, CostCalculator.Calculate);
 
             UpdateSubscriptionInfo();
             MessageBox.Show(this, "Koszt wydruku: " + cost.ToString("0.00") + " zł", "Wydruk");

@@ -59,7 +59,7 @@ namespace Lims.Problem
 
                 rows.Add(new SampleRow
                 {
-                    Barcode = LimsHelper.FormatBarcode(sample.Code),
+                    Barcode = sample.Code.FormatBarcode("+"),
                     Material = sample.Material,
                     Status = sample.Status.ToString(),
                     DueAt = sample.DueAt,

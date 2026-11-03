@@ -131,5 +131,148 @@ namespace Lims.Problem
             thread.IsBackground = true;
             thread.Start();
         }
+
+        // Wersja synchroniczna
+        private void processButton_Click1(object sender, EventArgs e)
+        {
+            TestResultRepository repository = new TestResultRepository();
+
+            try
+            {
+                TestResult result = repository.GetTestResult(1);
+
+                statusLabel.Text = $"Wartość: {result.Value} Kod: {result.SampleCode}";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Blad pobrania probki");
+            }
+
+        }
+
+        // Wersja asynchroniczna z Task ContinueWith
+        private void processButton_Click2(object sender, EventArgs e)
+        {
+            TestResultRepository repository = new TestResultRepository();
+
+            // Pobieramy harmonogram na wątku UI
+            TaskScheduler uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+            // Utworzenie instancji zadania i jego uruchomienie
+            Task<TestResult> task = repository.GetTestResultAsync(1);
+
+            // zla praktyka
+            // TestResult result = task.Result;
+
+            // Wykona sie jako kolejna operacja po zakonczeniu zadania
+            task.ContinueWith(completedTask =>
+            {
+                if (completedTask.IsFaulted)
+                {
+                    Console.WriteLine("Blad pobrania probki");
+                }
+
+                // Pobranie wyniku
+                TestResult result = completedTask.Result;
+
+                statusLabel.Text = $"Wartość: {result.Value} Kod: {result.SampleCode}";
+            }, uiScheduler);
+
+
+        }
+
+        private CancellationTokenSource cts = new CancellationTokenSource();
+
+        // wersja asynchroniczna z zastosowaniem async - await
+
+        private async void processButton_Click3(object sender, EventArgs e)
+        {
+            TestResultRepository repository = new TestResultRepository();
+
+            IProgress<int> progress = new Progress<int>(completed => progressBarProcess.Value = completed);
+
+            processButton.Enabled = false;
+            cancelButton.Enabled = true;
+
+            CancellationToken token = cts.Token;
+
+            try
+            {
+
+                // Utworzenie instancji zadania i jego uruchomienie
+                TestResult result = await repository.GetTestResultAsync(1, token, progress); // await - oczekuje na zakonczenie zadania, pobiera wynik i synchronizuje harmonogram na watku UI                
+                
+
+                Console.WriteLine("DoWork....");
+
+                // Wykona sie jako kolejna operacja po zakonczeniu zadania                                             
+
+                statusLabel.Text = $"Wartość: {result.Value} Kod: {result.SampleCode}";
+            }
+
+            catch (OperationCanceledException ex)
+            {                
+                statusLabel.Text += $"Anulowano test {ex.Data["BatchId"]} Wykonano: {ex.Data["Processed"]}";
+                progressBarProcess.Value = 0;
+            }
+            catch (Exception ex)
+            {
+                statusLabel.Text = "Blad pobrania probki";
+            }
+
+            processButton.Enabled = true;
+            cancelButton.Enabled = false;
+
+        }
+
+        private async void processButton_Click(object sender, EventArgs e)
+        {
+            TestResultRepository repository = new TestResultRepository();
+
+            IProgress<int> progress = new Progress<int>(completed => progressBarProcess.Value = completed);
+
+            processButton.Enabled = false;
+            cancelButton.Enabled = true;
+
+            CancellationToken token = cts.Token;
+
+            try
+            {
+
+                // Utworzenie instancji zadania i jego uruchomienie
+                Task<TestResult> task1 = repository.GetTestResultAsync(1, token, progress); // await - oczekuje na zakonczenie zadania, pobiera wynik i synchronizuje harmonogram na watku UI                
+                Task<TestResult> task2 = repository.GetTestResultAsync(2, token, progress); // await - oczekuje na zakonczenie zadania, pobiera wynik i synchronizuje harmonogram na watku UI                
+
+                // Poczekaj na zakonczenie wszystkich wskazanych zadan
+                await Task.WhenAll(task1, task2);                
+
+                TestResult result = task1.Result;
+                TestResult result2 = task2.Result;
+
+                // Wykona sie jako kolejna operacja po zakonczeniu zadania                                             
+
+                statusLabel.Text = $"Wartość 1: {result.Value} Wartość 2:{result2.Value} Kod: {result.SampleCode} Kod: {result2.SampleCode}";
+            }
+
+            catch (OperationCanceledException ex)
+            {
+                statusLabel.Text += $"Anulowano test {ex.Data["BatchId"]} Wykonano: {ex.Data["Processed"]}";
+                progressBarProcess.Value = 0;
+            }
+            catch (Exception ex)
+            {
+                statusLabel.Text = "Blad pobrania probki";
+            }
+
+            processButton.Enabled = true;
+            cancelButton.Enabled = false;
+
+        }
+
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            cts.Cancel();
+        }
     }
 }

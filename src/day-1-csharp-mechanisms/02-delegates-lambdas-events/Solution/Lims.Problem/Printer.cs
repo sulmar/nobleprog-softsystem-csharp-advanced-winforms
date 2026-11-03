@@ -2,6 +2,21 @@ using System;
 
 namespace Lims.Problem
 {
+    public class PrintCompletedEventArgs : EventArgs
+    {
+        public PrintCompletedEventArgs(string document, int copies, decimal cost)
+        {
+            Document = document;
+            Copies = copies;
+            Cost = cost;
+        }
+
+
+        public string Document { get; }
+        public int Copies { get; }
+        public decimal Cost { get; }
+    }
+
     internal class Printer
     {
         // TODO: refaktoryzacja: ogłaszać zakończenie drukowania zdarzeniem.
@@ -12,7 +27,8 @@ namespace Lims.Problem
         // TODO: refaktoryzacja: zamienić pole na zdarzenie.
         // PROBLEM: publiczne pole delegata zamiast zdarzenia. Z zewnątrz można je wywołać,
         // ogłaszając wydruk, którego nie było, albo napisać "=" zamiast "+=", co usunie pozostałych odbiorców.
-        public Action<string, int> PrintCompleted;
+        // public Action<string, int> PrintCompleted;
+        public event EventHandler<PrintCompletedEventArgs>  PrintCompleted;
 
         public int PrintedCopies { get; private set; }
 
@@ -21,32 +37,26 @@ namespace Lims.Problem
             get { return PrintCompleted == null ? 0 : PrintCompleted.GetInvocationList().Length; }
         }
 
-        public decimal Print(string document, int copies)
+        public decimal Print(string document, int copies, Func<int, decimal> calculateCost)
         {
             // Wydruk jest tu symulowany: liczy się podział odpowiedzialności, nie sam sprzęt.
             PrintedCopies += copies;
 
-            MainForm?.AddLogEntry("Wydrukowano: " + document + ", kopie: " + copies);
+            MainForm?.AddLogEntry("Wydrukowano: " + document + ", kopie: " + copies); 
+            
+            var cost = calculateCost(copies);
 
             if (PrintCompleted != null)
             {
-                PrintCompleted(document, copies);
+                PrintCompleted(this, new PrintCompletedEventArgs(document, copies, cost));
             }
 
             // TODO: refaktoryzacja: wynieść obliczanie kosztu poza klasę drukarki.
             // PROBLEM: drukarka oprócz drukowania zna cennik (SRP). Nowy cennik, np. dla klienta
             // z umową, wymaga zmiany tej klasy (OCP), a drukarka zależy od jednego cennika (DIP).
-            if (copies >= 100)
-            {
-                return copies * 0.05m;
-            }
+        
 
-            if (copies >= 10)
-            {
-                return copies * 0.08m;
-            }
-
-            return copies * 0.10m;
+            return cost; 
         }
     }
 }

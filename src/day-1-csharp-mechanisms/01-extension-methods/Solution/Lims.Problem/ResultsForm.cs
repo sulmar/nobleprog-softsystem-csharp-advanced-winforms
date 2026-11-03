@@ -37,10 +37,8 @@ namespace Lims.Problem
             foreach (var result in results)
             {
                 rows.Add(new ResultRow
-                {
-                    // TODO: refaktoryzacja: użyć wspólnego formatowania kodu.
-                    // PROBLEM: formatowanie napisane od nowa, bez ToUpperInvariant (DRY).
-                    Barcode = "*" + result.SampleCode.Replace("-", string.Empty) + "*",
+                {                    
+                    Barcode = result.SampleCode.FormatBarcode(),
                     Analyte = result.Analyte,
                     Value = result.Value,
                     Unit = result.Unit,

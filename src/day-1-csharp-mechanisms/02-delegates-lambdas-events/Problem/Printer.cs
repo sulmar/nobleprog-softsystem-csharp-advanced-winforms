@@ -21,7 +21,7 @@ namespace Lims.Problem
             get { return PrintCompleted == null ? 0 : PrintCompleted.GetInvocationList().Length; }
         }
 
-        public decimal Print(string document, int copies)
+        public decimal Print(string document, int copies, Func<int, decimal> calculateCost)
         {
             // Wydruk jest tu symulowany: liczy się podział odpowiedzialności, nie sam sprzęt.
             PrintedCopies += copies;
