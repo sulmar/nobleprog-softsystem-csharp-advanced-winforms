@@ -22,6 +22,7 @@ namespace Lims.Problem
             this.registerButton = new System.Windows.Forms.Button();
             this.statusLabel = new System.Windows.Forms.Label();
             this.samplesGrid = new System.Windows.Forms.DataGridView();
+            this.buttonPreview = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.samplesGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,11 +89,22 @@ namespace Lims.Problem
             this.samplesGrid.Size = new System.Drawing.Size(560, 200);
             this.samplesGrid.TabIndex = 6;
             // 
+            // buttonPreview
+            // 
+            this.buttonPreview.Location = new System.Drawing.Point(497, 75);
+            this.buttonPreview.Name = "buttonPreview";
+            this.buttonPreview.Size = new System.Drawing.Size(75, 23);
+            this.buttonPreview.TabIndex = 7;
+            this.buttonPreview.Text = "Podgląd";
+            this.buttonPreview.UseVisualStyleBackColor = true;
+            this.buttonPreview.Click += new System.EventHandler(this.buttonPreview_Click);
+            // 
             // SampleRegistrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 316);
+            this.Controls.Add(this.buttonPreview);
             this.Controls.Add(this.samplesGrid);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.registerButton);
@@ -115,5 +127,6 @@ namespace Lims.Problem
         private System.Windows.Forms.Button registerButton;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.DataGridView samplesGrid;
+        private System.Windows.Forms.Button buttonPreview;
     }
 }

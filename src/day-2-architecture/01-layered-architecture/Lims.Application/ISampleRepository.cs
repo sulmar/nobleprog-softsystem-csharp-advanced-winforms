@@ -1,12 +1,10 @@
 ﻿using Lims.Domain;
 using System;
-using System.Collections.Generic;
 
 namespace Lims.Application
 {
-    public interface ISampleRepository
+    public interface ISampleRepository : IEntityRepository<Sample>
     {
-        void Add(Sample sample);
-        IReadOnlyList<Sample> GetAll();
+        
     }
 }

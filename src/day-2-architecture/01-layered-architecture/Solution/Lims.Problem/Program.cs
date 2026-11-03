@@ -39,8 +39,13 @@ namespace Lims.Problem
             });
 
             services.AddTransient<SampleRegistrationService>();
+           
 
             services.AddSingleton<SampleRegistrationForm>();
+
+            services.AddTransient<SamplePreviewForm>();
+
+            services.AddTransient<IFormFactory, FormFactory>();
 
             using (var provider = services.BuildServiceProvider())
             using (var scope = provider.CreateScope()) 

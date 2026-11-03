@@ -11,8 +11,9 @@ namespace Lims.Problem
     public partial class SampleRegistrationForm : Form
     {
         private readonly SampleRegistrationService service;
+        private readonly IFormFactory formFactory;
 
-        public SampleRegistrationForm(SampleRegistrationService service)
+        public SampleRegistrationForm(SampleRegistrationService service, IFormFactory formFactory)
         {
             InitializeComponent();
 
@@ -23,7 +24,7 @@ namespace Lims.Problem
             priorityComboBox.SelectedIndex = 0;
 
             this.service = service;
-
+            this.formFactory = formFactory;
             RefreshGrid();
             
         }
@@ -48,6 +49,15 @@ namespace Lims.Problem
         {
             samplesGrid.DataSource = service.GetRegisteredSamples().ToList();
 
+        }
+
+        private void buttonPreview_Click(object sender, EventArgs e)
+        {
+            // var form = new SamplePreviewForm(new InMemorySampleRepository());
+
+            var form = formFactory.Create<SamplePreviewForm>();
+
+            form.ShowDialog();
         }
     }
 }
