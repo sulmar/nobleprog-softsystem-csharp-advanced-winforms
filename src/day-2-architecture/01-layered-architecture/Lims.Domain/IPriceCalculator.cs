@@ -1,8 +1,10 @@
 ﻿namespace Lims.Domain
 {
-    // Abstract Decorator
+    // Dekorator
     public interface IPriceCalculator
     {
+        // Operacja
         decimal Calculate(string analyte, Priority priority);
+      // Komponent
     }
 }
