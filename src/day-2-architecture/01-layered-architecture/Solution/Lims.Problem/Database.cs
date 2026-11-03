@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Lims.Problem
@@ -6,21 +5,19 @@ namespace Lims.Problem
     /// <summary>Symulacja bazy danych. W prawdziwej aplikacji byłyby tu połączenie i zapytania SQL.</summary>
     internal static class Database
     {
-        // Wiersz: kod, PESEL, materiał, oznaczenie, priorytet, termin, cena, data rejestracji.
-        public static readonly List<object[]> Samples = new List<object[]>();
+        public static readonly List<RegisteredSample> Samples = new List<RegisteredSample>();
 
-        public static int NextNumber = 600;
-
-        public static bool Exists(string pesel, string analyte, DateTime day)
+        public static void Save(string pesel, string analyte, string priority, decimal price)
         {
-            foreach (var row in Samples)
-            {
-                if ((string)row[1] == pesel && (string)row[3] == analyte && ((DateTime)row[7]).Date == day.Date)
-                {
-                    return true;
-                }
-            }
-            return false;
+            Samples.Add(new RegisteredSample { Pesel = pesel, Analyte = analyte, Priority = priority, Price = price });
         }
+    }
+
+    internal class RegisteredSample
+    {
+        public string Pesel { get; set; }
+        public string Analyte { get; set; }
+        public string Priority { get; set; }
+        public decimal Price { get; set; }
     }
 }

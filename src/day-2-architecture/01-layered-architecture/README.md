@@ -6,7 +6,7 @@ Ten moduł przygotowuje grunt pod kolejne: MVP (moduł 2) odchudza formularz jes
 
 ## Historia
 
-Formularz rejestracji próbki powstał jako prosty ekran i rósł z każdym zgłoszeniem. Dziś jedna metoda obsługi przycisku waliduje dane, liczy cenę i termin, zapisuje do bazy i drukuje etykietę. Każda zmiana jest ryzykowna, nic nie ma testów, a pacjent usłyszał inną cenę, niż trafiła do bazy.
+Formularz rejestracji próbki to prosty ekran. Jedna metoda obsługi przycisku liczy cenę, zapisuje do bazy i drukuje etykietę na drukarce jednego dostawcy. Laboratorium zmienia drukarkę na model innego dostawcy, a kierownik chce testów cennika.
 
 ## Problem
 
@@ -14,12 +14,9 @@ Otwórz `Problem/SampleRegistrationForm.cs`.
 
 | Odpowiedzialność | Gdzie jest teraz | Skutek |
 |---|---|---|
-| Odczyt pól i komunikaty | `RegisterButton_Click` | Właściwe miejsce, ale wymieszane z resztą |
-| Walidacja i cennik | `RegisterButton_Click` | **Podgląd ceny ma inny mnożnik niż zapis: 18,00 zł zamiast 19,20 zł** |
-| Termin wykonania | `RegisterButton_Click` | `DateTime.Now` uniemożliwia test dla ustalonego czasu |
+| Cennik | if w `RegisterButton_Click` | Reguły nie da się przetestować bez okna |
 | Zapis | Statyczna klasa `Database` | Zmiana bazy dotyka formularza |
-| Etykieta | `File.AppendAllText` w handlerze | Każde uruchomienie logiki drukuje |
-| Testy | Brak | Logiki nie da się uruchomić bez okna |
+| Etykieta | SDK `LabelTechPrinter` w handlerze | Zmiana drukarki dotyka formularza, test drukuje |
 
 ## Gdzie co umieścić
 
@@ -34,7 +31,6 @@ Otwórz `Problem/SampleRegistrationForm.cs`.
 
 - **Formularz nie zawiera reguł biznesowych.** Czyta pola, wywołuje serwis i pokazuje wynik.
 - **Warstwa aplikacyjna definiuje interfejsy,** a infrastruktura je implementuje.
-- **Bieżący czas jest zależnością.** Przekazuj go z zewnątrz, by testy mogły go ustalić.
 - **Tylko `Program.cs` zna wszystkie warstwy.** To jedyne miejsce, które składa aplikację.
 - **Warstwy to środek, a nie cel.** Mały ekran do jednorazowego użytku nie potrzebuje czterech projektów.
 
