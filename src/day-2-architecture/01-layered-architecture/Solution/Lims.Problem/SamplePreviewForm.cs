@@ -32,8 +32,19 @@ namespace Lims.Problem
         {
             analyteLabel.Text = string.Empty;
 
-            var sample = repository.GetByPesel(textBoxPesel.Text);
-            analyteLabel.Text = sample.Analyte;
+            try
+            {
+
+
+
+                var sample = repository.GetByPesel(textBoxPesel.Text);
+                analyteLabel.Text = sample.Analyte;
+
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                MessageBox.Show(ex.Message, "Access", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
 
         }
     }

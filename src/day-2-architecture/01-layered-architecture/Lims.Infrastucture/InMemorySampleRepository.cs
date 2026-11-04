@@ -1,6 +1,5 @@
 ﻿using Lims.Application;
 using Lims.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -29,4 +28,16 @@ namespace Lims.Infrastucture
             return _samples.FirstOrDefault(s => s.Pesel == pesel);           
         }
     }
+
+    public class UserIdentity
+    {
+        public UserIdentity(string pesel)
+        {
+            Pesel = pesel;
+        }
+
+        public string Pesel { get; }
+    }
+
+
 }
