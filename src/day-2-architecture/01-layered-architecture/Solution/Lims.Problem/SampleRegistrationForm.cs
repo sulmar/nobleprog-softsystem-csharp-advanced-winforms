@@ -1,10 +1,12 @@
-using System;
-using System.Linq;
-using System.Windows.Forms;
 using LabelTech.Sdk;
 using Lims.Application;
 using Lims.Domain;
 using Lims.Infrastucture;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Lims.Problem
 {
@@ -12,9 +14,20 @@ namespace Lims.Problem
     {
         private readonly SampleRegistrationService service;
         private readonly IFormFactory formFactory;
+        private readonly ICommand printCommand;
+        private readonly ICommand sendCommand;
+
+        private readonly Queue<ICommand> commands = new Queue<ICommand>();
 
         public SampleRegistrationForm(SampleRegistrationService service, IFormFactory formFactory)
         {
+            this.service = service;
+
+            printCommand = new PrintCommand(sample);
+            sendCommand = new SendCommand(sample);
+            commands.Enqueue(printCommand);
+            commands.Enqueue(sendCommand);
+
             InitializeComponent();
 
             analyteComboBox.Items.AddRange(new object[] { "Glukoza", "Hemoglobina", "Morfologia" });
@@ -24,11 +37,14 @@ namespace Lims.Problem
             analyteComboBox.SelectedIndex = 0;
             priorityComboBox.SelectedIndex = 0;
 
-            this.service = service;
+
+
             this.formFactory = formFactory;
-            RefreshGrid();
-            
+            RefreshControls();
+
         }
+
+        private Sample sample = new Sample();
 
         // TODO: refaktoryzacja: podzielić na warstwy.
         // PROBLEM: jeden handler liczy cenę, zapisuje do bazy i drukuje etykietę (SRP).
@@ -40,18 +56,31 @@ namespace Lims.Problem
             var priority = (Priority)priorityComboBox.SelectedIndex;
             var payerType = (PayerType)payerTypeComboBox.SelectedIndex;
 
-            var sample = service.Register(pesel, analyte, priority, payerType);
-            
+            sample.Pesel = pesel;
+            sample.Analyte = analyte;
+            sample.Priority = priority;
+
+            sample = service.Register(sample, payerType);
+
             statusLabel.Text = "Zarejestrowano, cena " + sample.Price.ToString("0.00") + " zł";
             peselTextBox.Clear();
-            RefreshGrid();
+            RefreshControls();
         }
 
         private void RefreshGrid()
         {
             samplesGrid.DataSource = service.GetRegisteredSamples().ToList();
-
         }
+
+        private void RefreshControls()
+        {
+            RefreshGrid();
+
+            printButton.Enabled = printCommand.CanExecute();
+            previewButton.Enabled = sendCommand.CanExecute();
+        }
+
+
 
         private void buttonPreview_Click(object sender, EventArgs e)
         {
@@ -60,6 +89,62 @@ namespace Lims.Problem
             var form = formFactory.Create<SamplePreviewForm>();
 
             form.ShowDialog();
+        }
+
+        private void analyteComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshControls();
+        }
+
+        private void priorityComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshControls();
+        }
+
+        private void payerTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshControls();
+        }
+
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            while (commands.Count > 0)
+            {
+                ICommand command = commands.Dequeue();
+
+                if (command.CanExecute())
+                    command.Execute();
+
+            }
+        }
+
+        private void StartAnalysisButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                sample.StartAnalysis();
+                statusAnalysisLabel.Text = sample.Status.ToString();
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Stan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void CompleteAnalysisButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                sample.CompleteAnalysis();
+                statusAnalysisLabel.Text = sample.Status.ToString();
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Stan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }

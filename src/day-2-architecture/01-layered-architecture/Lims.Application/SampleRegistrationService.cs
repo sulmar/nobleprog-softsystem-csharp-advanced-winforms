@@ -24,17 +24,15 @@ namespace Lims.Application
             this.discountStrategyFactory = discountStrategyFactory;
         }
 
-        public Sample Register(string pesel, string analyte, Priority priority, PayerType payerType)
+        public Sample Register(Sample sample, PayerType payerType)
         {
-            var price = calculator.Calculate(analyte, priority);
+            sample.Price = calculator.Calculate(sample.Analyte, sample.Priority);            
 
             // Wybieramy strategię
             IDiscountStrategy discount = discountStrategyFactory.Create(payerType);
 
-            price = discount.Apply(price);
-
-            Sample sample = new Sample { Pesel = pesel, Analyte = analyte, Priority = priority, Price = price };
-
+            sample.Price = discount.Apply(sample.Price);
+          
             sampleRepository.Add(sample);
 
 

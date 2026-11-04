@@ -22,8 +22,12 @@ namespace Lims.Problem
             this.registerButton = new System.Windows.Forms.Button();
             this.statusLabel = new System.Windows.Forms.Label();
             this.samplesGrid = new System.Windows.Forms.DataGridView();
-            this.buttonPreview = new System.Windows.Forms.Button();
+            this.previewButton = new System.Windows.Forms.Button();
             this.payerTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.printButton = new System.Windows.Forms.Button();
+            this.StartAnalysisButton = new System.Windows.Forms.Button();
+            this.CompleteAnalysisButton = new System.Windows.Forms.Button();
+            this.statusAnalysisLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.samplesGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,6 +55,7 @@ namespace Lims.Problem
             this.analyteComboBox.Name = "analyteComboBox";
             this.analyteComboBox.Size = new System.Drawing.Size(120, 21);
             this.analyteComboBox.TabIndex = 2;
+            this.analyteComboBox.SelectedIndexChanged += new System.EventHandler(this.analyteComboBox_SelectedIndexChanged);
             // 
             // priorityComboBox
             // 
@@ -59,6 +64,7 @@ namespace Lims.Problem
             this.priorityComboBox.Name = "priorityComboBox";
             this.priorityComboBox.Size = new System.Drawing.Size(120, 21);
             this.priorityComboBox.TabIndex = 3;
+            this.priorityComboBox.SelectedIndexChanged += new System.EventHandler(this.priorityComboBox_SelectedIndexChanged);
             // 
             // registerButton
             // 
@@ -90,15 +96,15 @@ namespace Lims.Problem
             this.samplesGrid.Size = new System.Drawing.Size(560, 200);
             this.samplesGrid.TabIndex = 6;
             // 
-            // buttonPreview
+            // previewButton
             // 
-            this.buttonPreview.Location = new System.Drawing.Point(497, 75);
-            this.buttonPreview.Name = "buttonPreview";
-            this.buttonPreview.Size = new System.Drawing.Size(75, 23);
-            this.buttonPreview.TabIndex = 7;
-            this.buttonPreview.Text = "Podgląd";
-            this.buttonPreview.UseVisualStyleBackColor = true;
-            this.buttonPreview.Click += new System.EventHandler(this.buttonPreview_Click);
+            this.previewButton.Location = new System.Drawing.Point(415, 75);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(75, 23);
+            this.previewButton.TabIndex = 7;
+            this.previewButton.Text = "Podgląd";
+            this.previewButton.UseVisualStyleBackColor = true;
+            this.previewButton.Click += new System.EventHandler(this.buttonPreview_Click);
             // 
             // payerTypeComboBox
             // 
@@ -107,14 +113,57 @@ namespace Lims.Problem
             this.payerTypeComboBox.Name = "payerTypeComboBox";
             this.payerTypeComboBox.Size = new System.Drawing.Size(120, 21);
             this.payerTypeComboBox.TabIndex = 8;
+            this.payerTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.payerTypeComboBox_SelectedIndexChanged);
+            // 
+            // printButton
+            // 
+            this.printButton.Location = new System.Drawing.Point(497, 75);
+            this.printButton.Name = "printButton";
+            this.printButton.Size = new System.Drawing.Size(75, 23);
+            this.printButton.TabIndex = 9;
+            this.printButton.Text = "Drukuj";
+            this.printButton.UseVisualStyleBackColor = true;
+            this.printButton.Click += new System.EventHandler(this.printButton_Click);
+            // 
+            // StartAnalysisButton
+            // 
+            this.StartAnalysisButton.Location = new System.Drawing.Point(15, 329);
+            this.StartAnalysisButton.Name = "StartAnalysisButton";
+            this.StartAnalysisButton.Size = new System.Drawing.Size(127, 23);
+            this.StartAnalysisButton.TabIndex = 10;
+            this.StartAnalysisButton.Text = "Rozpocznij analizę";
+            this.StartAnalysisButton.UseVisualStyleBackColor = true;
+            this.StartAnalysisButton.Click += new System.EventHandler(this.StartAnalysisButton_Click);
+            // 
+            // CompleteAnalysisButton
+            // 
+            this.CompleteAnalysisButton.Location = new System.Drawing.Point(445, 329);
+            this.CompleteAnalysisButton.Name = "CompleteAnalysisButton";
+            this.CompleteAnalysisButton.Size = new System.Drawing.Size(127, 23);
+            this.CompleteAnalysisButton.TabIndex = 11;
+            this.CompleteAnalysisButton.Text = "Zakoncz analizę";
+            this.CompleteAnalysisButton.UseVisualStyleBackColor = true;
+            this.CompleteAnalysisButton.Click += new System.EventHandler(this.CompleteAnalysisButton_Click);
+            // 
+            // statusAnalysisLabel
+            // 
+            this.statusAnalysisLabel.AutoSize = true;
+            this.statusAnalysisLabel.Location = new System.Drawing.Point(213, 334);
+            this.statusAnalysisLabel.Name = "statusAnalysisLabel";
+            this.statusAnalysisLabel.Size = new System.Drawing.Size(0, 13);
+            this.statusAnalysisLabel.TabIndex = 12;
             // 
             // SampleRegistrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 316);
+            this.ClientSize = new System.Drawing.Size(584, 412);
+            this.Controls.Add(this.statusAnalysisLabel);
+            this.Controls.Add(this.CompleteAnalysisButton);
+            this.Controls.Add(this.StartAnalysisButton);
+            this.Controls.Add(this.printButton);
             this.Controls.Add(this.payerTypeComboBox);
-            this.Controls.Add(this.buttonPreview);
+            this.Controls.Add(this.previewButton);
             this.Controls.Add(this.samplesGrid);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.registerButton);
@@ -137,7 +186,11 @@ namespace Lims.Problem
         private System.Windows.Forms.Button registerButton;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.DataGridView samplesGrid;
-        private System.Windows.Forms.Button buttonPreview;
+        private System.Windows.Forms.Button previewButton;
         private System.Windows.Forms.ComboBox payerTypeComboBox;
+        private System.Windows.Forms.Button printButton;
+        private System.Windows.Forms.Button StartAnalysisButton;
+        private System.Windows.Forms.Button CompleteAnalysisButton;
+        private System.Windows.Forms.Label statusAnalysisLabel;
     }
 }
