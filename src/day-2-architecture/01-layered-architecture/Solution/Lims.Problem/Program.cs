@@ -27,7 +27,12 @@ namespace Lims.Problem
                 return new PriorityPriceDecorator(calculator);
             });
 
-            services.AddSingleton<ISampleRepository, InMemorySampleRepository>();
+            // services.AddSingleton<ISampleRepository, InMemorySampleRepository>();
+
+            services.AddSingleton<ISampleRepository>(provider =>
+            {
+                return new CachedSampleRepositoryProxy(new InMemorySampleRepository());
+            });
 
             services.AddTransient<ILabelPrinterFactory>(provider =>
             {

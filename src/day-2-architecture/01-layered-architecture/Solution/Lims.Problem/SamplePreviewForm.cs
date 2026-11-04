@@ -30,6 +30,8 @@ namespace Lims.Problem
 
         private void buttonGetSample_Click(object sender, EventArgs e)
         {
+            analyteLabel.Text = string.Empty;
+
             var sample = repository.GetByPesel(textBoxPesel.Text);
             analyteLabel.Text = sample.Analyte;
 
