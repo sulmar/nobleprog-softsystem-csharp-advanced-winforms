@@ -123,7 +123,7 @@ namespace Lims.Problem
             try
             {
                 sample.StartAnalysis();
-                statusAnalysisLabel.Text = sample.Status.ToString();
+                statusAnalysisLabel.Text = sample.Status.Name.ToString();
             }
             catch (InvalidOperationException ex)
             {
@@ -138,7 +138,7 @@ namespace Lims.Problem
             {
 
                 sample.CompleteAnalysis();
-                statusAnalysisLabel.Text = sample.Status.ToString();
+                statusAnalysisLabel.Text = sample.Status.Name.ToString();
             }
             catch (InvalidOperationException ex)
             {

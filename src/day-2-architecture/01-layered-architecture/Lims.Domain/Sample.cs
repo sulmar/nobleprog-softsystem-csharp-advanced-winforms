@@ -4,10 +4,60 @@ using System.Text;
 
 namespace Lims.Domain
 {    
-    public abstract class Base
+
+    public interface ISampleState
     {
-        public int Id { get; set; }
+        string Name { get; }
+        void StartAnalysis(Sample sample);
+        void CompleteAnalysis(Sample sample);
     }
+
+
+    public class RegisteredState : ISampleState
+    {
+        public string Name => "Zarejestrowana";
+
+        public void CompleteAnalysis(Sample sample)
+        {
+            throw new InvalidOperationException("Najpierw ropocznij analizę");
+        }
+
+        public void StartAnalysis(Sample sample)
+        {
+            sample.ChangeState(new InAnalysisState());
+        }
+    }
+
+    public class InAnalysisState : ISampleState
+    {
+        public string Name => "W trakcie analizy";
+
+        public void CompleteAnalysis(Sample sample)
+        {            
+            sample.ChangeState(new CompleteState());
+        }
+
+        public void StartAnalysis(Sample sample)
+        {
+            throw new InvalidOperationException("Analiza już trwa");
+        }
+    }
+
+    public class CompleteState : ISampleState
+    {
+        public string Name => "Zakończona";
+
+        public void CompleteAnalysis(Sample sample)
+        {
+            throw new InvalidOperationException("Analiza została juz zakonczona");
+        }
+
+        public void StartAnalysis(Sample sample)
+        {
+            throw new InvalidOperationException("Analiza została już zakończona");
+        }
+    }
+
 
 
     public class Sample : Base
@@ -16,29 +66,22 @@ namespace Lims.Domain
         public string Analyte { get; set; }
         public Priority Priority { get; set; }
         public decimal Price { get; set; }
-        public SampleStatus Status { get; set; }
+        public ISampleState Status { get; private set; } = new RegisteredState(); // Stan poczatkowy
+
+        public void ChangeState(ISampleState state)
+        {
+            Status = state;
+        }
 
 
         public void StartAnalysis()
         {
-            if (Status == SampleStatus.IsAnalysis)
-                throw new InvalidOperationException("Analiza już trwa");
-
-            if (Status == SampleStatus.Completed)
-                throw new InvalidOperationException("Analiza została już zakończona");
-
-            Status = SampleStatus.IsAnalysis;
+            Status.StartAnalysis(this);
         }
 
         public void CompleteAnalysis() 
         {
-            if (Status == SampleStatus.Registered)
-                throw new InvalidOperationException("Najpierw ropocznij analizę");
-
-            if (Status == SampleStatus.Completed)
-                throw new InvalidOperationException("Analiza została juz zakonczona");
-
-            Status = SampleStatus.Completed;
+            Status.CompleteAnalysis(this);            
         }
     }
 
@@ -53,7 +96,7 @@ namespace Lims.Domain
     public enum SampleStatus
     {
         Registered,
-        IsAnalysis,
+        InAnalysis,
         Completed
     }
 }
