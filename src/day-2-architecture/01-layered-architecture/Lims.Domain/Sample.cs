@@ -1,78 +1,9 @@
-﻿using System;
+﻿using Lims.Domain.States;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Lims.Domain
 {    
-
-    public interface ISampleState
-    {
-        string Name { get; }
-        void StartAnalysis(Sample sample);
-        void CompleteAnalysis(Sample sample);
-        void CancelAnalysis(Sample sample);
-    }
-
-
-    public class RegisteredState : ISampleState
-    {
-        public string Name => "Zarejestrowana";
-
-        public void CancelAnalysis(Sample sample)
-        {
-            throw new InvalidOperationException("Analiza nie zostala jeszcze rozpoczeta.");
-        }
-
-        public void CompleteAnalysis(Sample sample)
-        {
-            throw new InvalidOperationException("Najpierw ropocznij analizę");
-        }
-
-        public void StartAnalysis(Sample sample)
-        {
-            sample.ChangeState(new InAnalysisState());
-        }
-    }
-
-    public class InAnalysisState : ISampleState
-    {
-        public string Name => "W trakcie analizy";
-
-        public void CancelAnalysis(Sample sample)
-        {
-            sample.ChangeState(new RegisteredState());
-        }
-
-        public void CompleteAnalysis(Sample sample)
-        {            
-            sample.ChangeState(new CompleteState());
-        }
-
-        public void StartAnalysis(Sample sample)
-        {
-            throw new InvalidOperationException("Analiza już trwa");
-        }
-    }
-
-    public class CompleteState : ISampleState
-    {
-        public string Name => "Zakończona";
-
-        public void CancelAnalysis(Sample sample)
-        {
-            sample.ChangeState(new InAnalysisState());
-        }
-
-        public void CompleteAnalysis(Sample sample)
-        {
-            throw new InvalidOperationException("Analiza została juz zakonczona");
-        }
-
-        public void StartAnalysis(Sample sample)
-        {
-            throw new InvalidOperationException("Analiza została już zakończona");
-        }
-    }
 
 
 
