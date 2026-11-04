@@ -31,7 +31,7 @@ namespace Lims.Problem
 
             services.AddSingleton<ISampleRepository>(provider =>
             {
-                return new AuthorizedSampleRepositoryProxy( new CachedSampleRepositoryProxy(new InMemorySampleRepository()), new UserIdentity("01234567891"));
+                return new AuthorizedSampleRepositoryProxy(new CachedSampleRepositoryProxy(new InMemorySampleRepository()), new UserIdentity("01234567891"));
             });
 
             services.AddTransient<ILabelPrinterFactory>(provider =>

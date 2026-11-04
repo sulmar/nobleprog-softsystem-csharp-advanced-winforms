@@ -19,7 +19,7 @@ namespace Lims.Application
             this.calculator = calculator;
         }
 
-        public Sample Register(string pesel, string analyte, Priority priority)
+        public Sample Register(string pesel, string analyte, Priority priority, PayerType payerType)
         {            
             var price = calculator.Calculate(analyte, priority);
 

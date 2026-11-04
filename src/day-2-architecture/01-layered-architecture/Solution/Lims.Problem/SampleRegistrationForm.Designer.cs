@@ -23,6 +23,7 @@ namespace Lims.Problem
             this.statusLabel = new System.Windows.Forms.Label();
             this.samplesGrid = new System.Windows.Forms.DataGridView();
             this.buttonPreview = new System.Windows.Forms.Button();
+            this.payerTypeComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.samplesGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,11 +100,20 @@ namespace Lims.Problem
             this.buttonPreview.UseVisualStyleBackColor = true;
             this.buttonPreview.Click += new System.EventHandler(this.buttonPreview_Click);
             // 
+            // payerTypeComboBox
+            // 
+            this.payerTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.payerTypeComboBox.Location = new System.Drawing.Point(266, 42);
+            this.payerTypeComboBox.Name = "payerTypeComboBox";
+            this.payerTypeComboBox.Size = new System.Drawing.Size(120, 21);
+            this.payerTypeComboBox.TabIndex = 8;
+            // 
             // SampleRegistrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 316);
+            this.Controls.Add(this.payerTypeComboBox);
             this.Controls.Add(this.buttonPreview);
             this.Controls.Add(this.samplesGrid);
             this.Controls.Add(this.statusLabel);
@@ -128,5 +138,6 @@ namespace Lims.Problem
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.DataGridView samplesGrid;
         private System.Windows.Forms.Button buttonPreview;
+        private System.Windows.Forms.ComboBox payerTypeComboBox;
     }
 }

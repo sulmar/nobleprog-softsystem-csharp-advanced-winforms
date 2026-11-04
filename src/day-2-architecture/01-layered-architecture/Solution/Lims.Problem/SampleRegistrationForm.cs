@@ -19,6 +19,7 @@ namespace Lims.Problem
 
             analyteComboBox.Items.AddRange(new object[] { "Glukoza", "Hemoglobina", "Morfologia" });
             priorityComboBox.Items.AddRange(new object[] { "Zwykłe", "Pilne", "Cito" });
+            payerTypeComboBox.Items.AddRange(new object[] { "Komercja", "NFZ", "Pakiet" });
 
             analyteComboBox.SelectedIndex = 0;
             priorityComboBox.SelectedIndex = 0;
@@ -36,9 +37,10 @@ namespace Lims.Problem
         {
             var pesel = peselTextBox.Text;
             var analyte = (string)analyteComboBox.SelectedItem;
-            var priority = (Priority)priorityComboBox.SelectedIndex;            
+            var priority = (Priority)priorityComboBox.SelectedIndex;
+            var payerType = (PayerType)payerTypeComboBox.SelectedIndex;
 
-            var sample = service.Register(pesel, analyte, priority);
+            var sample = service.Register(pesel, analyte, priority, payerType);
             
             statusLabel.Text = "Zarejestrowano, cena " + sample.Price.ToString("0.00") + " zł";
             peselTextBox.Clear();
