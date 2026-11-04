@@ -19,7 +19,7 @@ namespace Lims.Problem
 
             analyteComboBox.Items.AddRange(new object[] { "Glukoza", "Hemoglobina", "Morfologia" });
             priorityComboBox.Items.AddRange(new object[] { "Zwykłe", "Pilne", "Cito" });
-            payerTypeComboBox.Items.AddRange(new object[] { "Komercja", "NFZ", "Pakiet" });
+            payerTypeComboBox.Items.AddRange(new object[] { "Komercja", "NFZ", "Pakiet", "Senior" });
 
             analyteComboBox.SelectedIndex = 0;
             priorityComboBox.SelectedIndex = 0;

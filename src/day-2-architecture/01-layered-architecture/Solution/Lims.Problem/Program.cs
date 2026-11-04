@@ -1,5 +1,6 @@
 using Lims.Application;
 using Lims.Domain;
+using Lims.Domain.Discounts;
 using Lims.Infrastucture;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -42,6 +43,14 @@ namespace Lims.Problem
 
                 return factory;
             });
+
+
+            services.AddTransient<IDiscountStrategy, NoDiscountStrategy>();
+            services.AddTransient<IDiscountStrategy, NfzDiscountStrategy>();
+            services.AddTransient<IDiscountStrategy, CompanySubscriptionStrategy>();
+            services.AddTransient<IDiscountStrategy, SeniorStrategy>();
+
+            services.AddTransient<DiscountStrategyFactory>();
 
             services.AddTransient<SampleRegistrationService>();
            
