@@ -6,17 +6,17 @@ namespace Lims.Domain.States
     {
         public string Name => "W trakcie analizy";
 
-        public void CancelAnalysis(Sample sample)
+        public void CancelAnalysis(SampleProxy sample)
         {
             sample.ChangeState(new RegisteredState());
         }
 
-        public void CompleteAnalysis(Sample sample)
+        public void CompleteAnalysis(SampleProxy sample)
         {            
             sample.ChangeState(new CompleteState());
         }
 
-        public void StartAnalysis(Sample sample)
+        public void StartAnalysis(SampleProxy sample)
         {
             throw new InvalidOperationException("Analiza już trwa");
         }

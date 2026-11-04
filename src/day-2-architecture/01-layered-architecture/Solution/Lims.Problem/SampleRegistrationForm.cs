@@ -41,7 +41,7 @@ namespace Lims.Problem
 
         }
 
-        private Sample sample;
+        private SampleProxy sample;
 
         // TODO: refaktoryzacja: podzielić na warstwy.
         // PROBLEM: jeden handler liczy cenę, zapisuje do bazy i drukuje etykietę (SRP).
@@ -53,7 +53,7 @@ namespace Lims.Problem
             var priority = (Priority)priorityComboBox.SelectedIndex;
             var payerType = (PayerType)payerTypeComboBox.SelectedIndex;
 
-            sample = new Sample();
+            sample = new SampleProxy();
 
             sample.Pesel = pesel;
             sample.Analyte = analyte;
@@ -64,7 +64,7 @@ namespace Lims.Problem
             commands.Enqueue(printCommand);
             commands.Enqueue(sendCommand);
 
-            sample = service.Register(sample, payerType);
+            service.Register(sample, payerType);
 
             statusLabel.Text = "Zarejestrowano, cena " + sample.Price.ToString("0.00") + " zł";
             peselTextBox.Clear();

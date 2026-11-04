@@ -9,9 +9,10 @@ namespace Lims.Domain
     {
         private readonly StateMachine<SampleStatus, SampleTrigger> machine;
 
-        public SampleStateMachine(SampleStatus initialState = SampleStatus.Registered)
+        // Stan jest przechowywany poza maszyna (np. we wlasciwosci Sample.Status)
+        public SampleStateMachine(Func<SampleStatus> stateAccessor, Action<SampleStatus> stateMutator)
         {
-            machine = new StateMachine<SampleStatus, SampleTrigger>(initialState); // Stan poczatkowy
+            machine = new StateMachine<SampleStatus, SampleTrigger>(stateAccessor, stateMutator);
 
             machine.Configure(SampleStatus.Registered)
                 .OnEntry(() => Console.WriteLine("Semd email: Zarejestrowano badanie"))
