@@ -14,8 +14,8 @@ namespace Lims.Problem
     {
         private readonly SampleRegistrationService service;
         private readonly IFormFactory formFactory;
-        private readonly ICommand printCommand;
-        private readonly ICommand sendCommand;
+        private ICommand printCommand;
+        private ICommand sendCommand;
 
         private readonly Queue<ICommand> commands = new Queue<ICommand>();
 
@@ -23,10 +23,7 @@ namespace Lims.Problem
         {
             this.service = service;
 
-            printCommand = new PrintCommand(sample);
-            sendCommand = new SendCommand(sample);
-            commands.Enqueue(printCommand);
-            commands.Enqueue(sendCommand);
+            
 
             InitializeComponent();
 
@@ -44,7 +41,7 @@ namespace Lims.Problem
 
         }
 
-        private Sample sample = new Sample();
+        private Sample sample;
 
         // TODO: refaktoryzacja: podzielić na warstwy.
         // PROBLEM: jeden handler liczy cenę, zapisuje do bazy i drukuje etykietę (SRP).
@@ -56,15 +53,25 @@ namespace Lims.Problem
             var priority = (Priority)priorityComboBox.SelectedIndex;
             var payerType = (PayerType)payerTypeComboBox.SelectedIndex;
 
+            sample = new Sample();
+
             sample.Pesel = pesel;
             sample.Analyte = analyte;
             sample.Priority = priority;
+
+            printCommand = new PrintCommand(sample);
+            sendCommand = new SendCommand(sample);
+            commands.Enqueue(printCommand);
+            commands.Enqueue(sendCommand);
 
             sample = service.Register(sample, payerType);
 
             statusLabel.Text = "Zarejestrowano, cena " + sample.Price.ToString("0.00") + " zł";
             peselTextBox.Clear();
-            RefreshControls();
+             RefreshControls();
+
+
+            graphTextBox.Text = sample.GenerateMermaidGraph;
         }
 
         private void RefreshGrid()
@@ -76,8 +83,8 @@ namespace Lims.Problem
         {
             RefreshGrid();
 
-            printButton.Enabled = printCommand.CanExecute();
-            previewButton.Enabled = sendCommand.CanExecute();
+            printButton.Enabled = printCommand != null && printCommand.CanExecute();
+            previewButton.Enabled = sendCommand != null && sendCommand.CanExecute();
         }
 
 

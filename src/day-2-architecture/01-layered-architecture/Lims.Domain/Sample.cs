@@ -1,5 +1,7 @@
 ﻿using Lims.Domain.States;
 using Stateless;
+using Stateless.Graph;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -26,8 +28,10 @@ namespace Lims.Domain
             machine = new StateMachine<SampleStatus, SampleTrigger>(SampleStatus.Registered); // Stan poczatkowy
 
             machine.Configure(SampleStatus.Registered)
+                .OnEntry(() => Console.WriteLine("Semd email: Zarejestrowano badanie"))
+                .OnEntryFrom(SampleTrigger.CancelAnalysis, ()=> Console.WriteLine("Nie wysylaj"))
                 .Permit(SampleTrigger.StartAnalysis, SampleStatus.InAnalysis); // Registered -> InAnalysis
-
+                
             machine.Configure(SampleStatus.InAnalysis)
                 .Permit(SampleTrigger.CompleteAnalysis, SampleStatus.Completed) //  CompleteAnalysis: InAnalysis -> Completed
                 .Permit(SampleTrigger.CancelAnalysis, SampleStatus.Registered)  //  CancelAnalysis: InAnalysis -> Registered
@@ -36,6 +40,9 @@ namespace Lims.Domain
             machine.Configure(SampleStatus.Completed)
                 .Permit(SampleTrigger.CancelAnalysis, SampleStatus.InAnalysis); // CancelAnalysis: Completed -> InAnalysis
         }
+
+
+        public string GenerateMermaidGraph => MermaidGraph.Format(machine.GetInfo());
 
         public void ChangeState(ISampleState state)
         {           
@@ -48,6 +55,9 @@ namespace Lims.Domain
             // Status.StartAnalysis(this);
             machine.Fire(SampleTrigger.StartAnalysis);
         }
+
+        public bool CanStartAnalysis => machine.CanFire(SampleTrigger.StartAnalysis);
+        
 
         public void CompleteAnalysis() 
         {

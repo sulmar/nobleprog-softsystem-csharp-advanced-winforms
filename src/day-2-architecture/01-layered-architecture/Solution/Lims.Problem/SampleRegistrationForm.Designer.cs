@@ -29,6 +29,7 @@ namespace Lims.Problem
             this.CompleteAnalysisButton = new System.Windows.Forms.Button();
             this.statusAnalysisLabel = new System.Windows.Forms.Label();
             this.cancelAnalysisButton = new System.Windows.Forms.Button();
+            this.graphTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.samplesGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -164,11 +165,21 @@ namespace Lims.Problem
             this.cancelAnalysisButton.UseVisualStyleBackColor = true;
             this.cancelAnalysisButton.Click += new System.EventHandler(this.cancelAnalysisButton_Click);
             // 
+            // graphTextBox
+            // 
+            this.graphTextBox.Location = new System.Drawing.Point(15, 398);
+            this.graphTextBox.Multiline = true;
+            this.graphTextBox.Name = "graphTextBox";
+            this.graphTextBox.ReadOnly = true;
+            this.graphTextBox.Size = new System.Drawing.Size(530, 321);
+            this.graphTextBox.TabIndex = 14;
+            // 
             // SampleRegistrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 412);
+            this.ClientSize = new System.Drawing.Size(584, 731);
+            this.Controls.Add(this.graphTextBox);
             this.Controls.Add(this.cancelAnalysisButton);
             this.Controls.Add(this.statusAnalysisLabel);
             this.Controls.Add(this.CompleteAnalysisButton);
@@ -205,5 +216,6 @@ namespace Lims.Problem
         private System.Windows.Forms.Button CompleteAnalysisButton;
         private System.Windows.Forms.Label statusAnalysisLabel;
         private System.Windows.Forms.Button cancelAnalysisButton;
+        private System.Windows.Forms.TextBox graphTextBox;
     }
 }
