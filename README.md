@@ -37,3 +37,16 @@ Stos: .NET Framework 4.8, WinForms, C# 7.3, xUnit. Przygotowanie komputera opisu
 | Dzień 3 | [04-observer](src/day-3-behavioral-patterns/04-observer/README.md) |
 | Dzień 3 | [05-mediator](src/day-3-behavioral-patterns/05-mediator/README.md) |
 | Dzień 3 | [06-workshop](src/day-3-behavioral-patterns/06-workshop/README.md) |
+
+
+
+## Diagram stanów
+
+```mermaid
+stateDiagram-v2
+	Registered --> InAnalysis : StartAnalysis
+	InAnalysis --> Completed : CompleteAnalysis
+	InAnalysis --> Registered : CancelAnalysis / Function
+	Completed --> InAnalysis : CancelAnalysis
+[*] --> Registered
+```
