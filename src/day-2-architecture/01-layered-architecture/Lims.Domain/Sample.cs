@@ -1,6 +1,4 @@
 ﻿using Lims.Domain.States;
-using Stateless;
-using Stateless.Graph;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,29 +18,9 @@ namespace Lims.Domain
         //public ISampleState Status { get; private set; } = new RegisteredState(); // Stan poczatkowy
         public SampleStatus Status => machine.State;
 
-        // Install-Package Stateless
-        private readonly StateMachine<SampleStatus, SampleTrigger> machine;
+        private readonly SampleStateMachine machine = new SampleStateMachine();
 
-        public Sample()
-        {
-            machine = new StateMachine<SampleStatus, SampleTrigger>(SampleStatus.Registered); // Stan poczatkowy
-
-            machine.Configure(SampleStatus.Registered)
-                .OnEntry(() => Console.WriteLine("Semd email: Zarejestrowano badanie"))
-                .OnEntryFrom(SampleTrigger.CancelAnalysis, ()=> Console.WriteLine("Nie wysylaj"))
-                .Permit(SampleTrigger.StartAnalysis, SampleStatus.InAnalysis); // Registered -> InAnalysis
-                
-            machine.Configure(SampleStatus.InAnalysis)
-                .Permit(SampleTrigger.CompleteAnalysis, SampleStatus.Completed) //  CompleteAnalysis: InAnalysis -> Completed
-                .Permit(SampleTrigger.CancelAnalysis, SampleStatus.Registered)  //  CancelAnalysis: InAnalysis -> Registered
-                ; 
-
-            machine.Configure(SampleStatus.Completed)
-                .Permit(SampleTrigger.CancelAnalysis, SampleStatus.InAnalysis); // CancelAnalysis: Completed -> InAnalysis
-        }
-
-
-        public string GenerateMermaidGraph => MermaidGraph.Format(machine.GetInfo());
+        public string GenerateMermaidGraph => machine.ToMermaidGraph();
 
         public void ChangeState(ISampleState state)
         {           
