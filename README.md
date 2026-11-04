@@ -30,6 +30,7 @@ Stos: .NET Framework 4.8, WinForms, C# 7.3, xUnit. Przygotowanie komputera opisu
 | Dzień 2 | [05-adapter](src/day-2-architecture/05-adapter/README.md) |
 | Dzień 2 | [06-facade](src/day-2-architecture/06-facade/README.md) |
 | Dzień 2 | [07-decorator](src/day-2-architecture/07-decorator/README.md) |
+| Dzień 2 | [08-tdd-lab-report](src/day-2-architecture/08-tdd-lab-report/README.md) |
 | Dzień 3 | [01-strategy](src/day-3-behavioral-patterns/01-strategy/README.md) |
 | Dzień 3 | [02-command](src/day-3-behavioral-patterns/02-command/README.md) |
 | Dzień 3 | [03-state](src/day-3-behavioral-patterns/03-state/README.md) |
