@@ -33,9 +33,9 @@ namespace Lims.Domain
             machine.Fire(SampleTrigger.CompleteAnalysis);
         }
 
-        public void CancelAnalysis()
+        public void CancelAnalysis(string reason)
         {
-            machine.Fire(SampleTrigger.CancelAnalysis);
+            machine.CancelAnalysis(reason);
 
             // Status.CancelAnalysis(this);
         }

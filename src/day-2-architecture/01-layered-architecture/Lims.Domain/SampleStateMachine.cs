@@ -9,17 +9,23 @@ namespace Lims.Domain
     {
         private readonly StateMachine<SampleStatus, SampleTrigger> machine;
 
+        // Wyzwalacz z parametrem: anulowanie wymaga podania powodu
+        private readonly StateMachine<SampleStatus, SampleTrigger>.TriggerWithParameters<string> cancelAnalysisTrigger;
+
         // Stan jest przechowywany poza maszyna (np. we wlasciwosci Sample.Status)
         public SampleStateMachine(Func<SampleStatus> stateAccessor, Action<SampleStatus> stateMutator)
         {
             machine = new StateMachine<SampleStatus, SampleTrigger>(stateAccessor, stateMutator);
 
+            cancelAnalysisTrigger = machine.SetTriggerParameters<string>(SampleTrigger.CancelAnalysis);
+
             machine.Configure(SampleStatus.Registered)
                 .OnEntry(() => Console.WriteLine("Semd email: Zarejestrowano badanie"))
-                .OnEntryFrom(SampleTrigger.CancelAnalysis, () => Console.WriteLine("Nie wysylaj"))
+                .OnEntryFrom(cancelAnalysisTrigger, reason => Console.WriteLine($"Nie wysylaj. Powod anulowania: {reason}"))
                 .Permit(SampleTrigger.StartAnalysis, SampleStatus.InAnalysis); // Registered -> InAnalysis
 
             machine.Configure(SampleStatus.InAnalysis)
+                .OnEntryFrom(cancelAnalysisTrigger, reason => Console.WriteLine($"Ponowna analiza. Powod: {reason}"))
                 .Permit(SampleTrigger.CompleteAnalysis, SampleStatus.Completed) //  CompleteAnalysis: InAnalysis -> Completed
                 .Permit(SampleTrigger.CancelAnalysis, SampleStatus.Registered)  //  CancelAnalysis: InAnalysis -> Registered
                 ;
@@ -31,6 +37,9 @@ namespace Lims.Domain
         public SampleStatus State => machine.State;
 
         public void Fire(SampleTrigger trigger) => machine.Fire(trigger);
+
+        // Wyzwalacz z parametrem trzeba odpalic razem z argumentem
+        public void CancelAnalysis(string reason) => machine.Fire(cancelAnalysisTrigger, reason);
 
         public bool CanFire(SampleTrigger trigger) => machine.CanFire(trigger);
 

@@ -159,7 +159,7 @@ namespace Lims.Problem
             try
             {
 
-                sample.CancelAnalysis();
+                sample.CancelAnalysis("Anulowano z formularza rejestracji");
 
                 statusAnalysisLabel.Text = sample.Status.ToString();
             }
