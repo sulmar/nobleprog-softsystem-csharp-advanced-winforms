@@ -10,12 +10,18 @@ namespace Lims.Domain
         string Name { get; }
         void StartAnalysis(Sample sample);
         void CompleteAnalysis(Sample sample);
+        void CancelAnalysis(Sample sample);
     }
 
 
     public class RegisteredState : ISampleState
     {
         public string Name => "Zarejestrowana";
+
+        public void CancelAnalysis(Sample sample)
+        {
+            throw new InvalidOperationException("Analiza nie zostala jeszcze rozpoczeta.");
+        }
 
         public void CompleteAnalysis(Sample sample)
         {
@@ -32,6 +38,11 @@ namespace Lims.Domain
     {
         public string Name => "W trakcie analizy";
 
+        public void CancelAnalysis(Sample sample)
+        {
+            sample.ChangeState(new RegisteredState());
+        }
+
         public void CompleteAnalysis(Sample sample)
         {            
             sample.ChangeState(new CompleteState());
@@ -46,6 +57,11 @@ namespace Lims.Domain
     public class CompleteState : ISampleState
     {
         public string Name => "Zakończona";
+
+        public void CancelAnalysis(Sample sample)
+        {
+            sample.ChangeState(new InAnalysisState());
+        }
 
         public void CompleteAnalysis(Sample sample)
         {
@@ -82,6 +98,11 @@ namespace Lims.Domain
         public void CompleteAnalysis() 
         {
             Status.CompleteAnalysis(this);            
+        }
+
+        public void CancelAnalysis()
+        {
+            Status.CancelAnalysis(this);
         }
     }
 

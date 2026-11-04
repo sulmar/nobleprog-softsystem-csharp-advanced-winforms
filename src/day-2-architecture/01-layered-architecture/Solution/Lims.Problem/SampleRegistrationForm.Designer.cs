@@ -28,6 +28,7 @@ namespace Lims.Problem
             this.StartAnalysisButton = new System.Windows.Forms.Button();
             this.CompleteAnalysisButton = new System.Windows.Forms.Button();
             this.statusAnalysisLabel = new System.Windows.Forms.Label();
+            this.cancelAnalysisButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.samplesGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -153,11 +154,22 @@ namespace Lims.Problem
             this.statusAnalysisLabel.Size = new System.Drawing.Size(0, 13);
             this.statusAnalysisLabel.TabIndex = 12;
             // 
+            // cancelAnalysisButton
+            // 
+            this.cancelAnalysisButton.Location = new System.Drawing.Point(298, 329);
+            this.cancelAnalysisButton.Name = "cancelAnalysisButton";
+            this.cancelAnalysisButton.Size = new System.Drawing.Size(137, 23);
+            this.cancelAnalysisButton.TabIndex = 13;
+            this.cancelAnalysisButton.Text = "Anuluj analizę";
+            this.cancelAnalysisButton.UseVisualStyleBackColor = true;
+            this.cancelAnalysisButton.Click += new System.EventHandler(this.cancelAnalysisButton_Click);
+            // 
             // SampleRegistrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 412);
+            this.Controls.Add(this.cancelAnalysisButton);
             this.Controls.Add(this.statusAnalysisLabel);
             this.Controls.Add(this.CompleteAnalysisButton);
             this.Controls.Add(this.StartAnalysisButton);
@@ -192,5 +204,6 @@ namespace Lims.Problem
         private System.Windows.Forms.Button StartAnalysisButton;
         private System.Windows.Forms.Button CompleteAnalysisButton;
         private System.Windows.Forms.Label statusAnalysisLabel;
+        private System.Windows.Forms.Button cancelAnalysisButton;
     }
 }

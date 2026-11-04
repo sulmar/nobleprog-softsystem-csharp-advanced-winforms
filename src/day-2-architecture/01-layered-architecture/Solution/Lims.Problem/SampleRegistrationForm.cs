@@ -146,5 +146,20 @@ namespace Lims.Problem
             }
 
         }
+
+        private void cancelAnalysisButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                sample.CancelAnalysis();
+
+                statusAnalysisLabel.Text = sample.Status.Name.ToString();
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Stan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
