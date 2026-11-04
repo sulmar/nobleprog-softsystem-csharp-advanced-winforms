@@ -23,6 +23,19 @@ namespace Lims.Application
         {            
             var price = calculator.Calculate(analyte, priority);
 
+
+            // Reguły rabatowe zaszyte w procesie rejestracji
+            switch(payerType)
+            {
+                case PayerType.Commercial: break;
+                case PayerType.Nfz: price = 0m; break;
+                case PayerType.CompanySubscription: price = Math.Max(price - 10m, 0); break;
+
+                default:
+                    throw new NotSupportedException(nameof(PayerType));
+
+            }
+
             Sample sample = new Sample { Pesel = pesel, Analyte = analyte, Priority = priority, Price = price };
 
             sampleRepository.Add(sample);
